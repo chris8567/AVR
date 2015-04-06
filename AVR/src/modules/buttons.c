@@ -16,10 +16,14 @@ uint8_t CountdownTimerHandle;
 
 void buttons_init(void){
 	BUTTON_SWITCH_IO_IN;
-	BUTTON_PULLUP;
+	BUTTON_IO_PULLUP;
+	#ifdef DEV_BOARD
 	EICRB |= _BV(ISC41)|_BV(ISC51)|_BV(ISC61)|_BV(ISC71);
 	
 	EIMSK |= _BV(BUTTON1_INTRRUPT)|_BV(BUTTON2_INTRRUPT)|_BV(BUTTON3_INTRRUPT)|_BV(BUTTON4_INTRRUPT);
+	#else
+	EICRB |= _BV(ISC11);
+	EIMSK |= _BV(); 
 	sei();
 	CountdownTimerHandle = Timer0_AllocateCountdownTimer();
 	

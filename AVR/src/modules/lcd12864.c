@@ -12,7 +12,12 @@
 
 void lcd12864_init(void){
 	SWITCH_LCD_IO_OUT;
+#ifdef DEV_BOARD		
 	LCD12864_SET_PSB_SERIAL;
+#else
+	LCD12864_RESET;
+	LCD12864_BACKLIGHT_ENABLE;
+#endif
 
 	delay_ms(10);
 	lcd12864_send_cmd(0x30);

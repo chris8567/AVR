@@ -71,7 +71,7 @@ int main (void)
 
 	}
 		
-	/* Insert application code here, after the board has been initialized. */
+	
 }
 
 

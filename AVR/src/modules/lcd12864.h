@@ -10,16 +10,34 @@
 #define LCD12864_H_
 #include <asf.h>
 
+#ifdef DEV_BOARD
+ #define LCD_PORT PORTG
+ #define LCD_DDR DDRG
+ #define LCD_PIN PING
+ #define LCD_CLK 4
+ #define LCD_SID 3
+ #define LCD_EN 2
+ #define LCD_PSB 1
+ #define LCD12864_SET_PSB_SERIAL LCD_PORT &=~_BV(LCD_PSB)
+#else 
+ #define LCD_PORT PORTE
+ #define LCD_DDR DDRE
+ #define LCD_PIN PINE
+ #define LCD_CLK 3
+ #define LCD_SID 4
+ #define LCD_EN 6
+ #define LCD_RST 5
+ #define LCD_BTL_EN 7
+ #define LCD12864_RESET LCD_PORT |= _BV(LCD_RST)
+ #define LCD12864_BACKLIGHT_ENABLE LCD_PORT &= ~_BV(LCD_BTL_EN)
+#endif
 
-#define LCD_PORT PORTG
-#define LCD_DDR DDRG
-#define LCD_PIN PING
-#define LCD_CLK 4
-#define LCD_SID 3
-#define LCD_EN 2
-#define LCD_PSB 1
 
-#define SWITCH_LCD_IO_OUT LCD_DDR |=(_BV(LCD_CLK)|_BV(LCD_SID)|_BV(LCD_EN)|_BV(LCD_PSB))
+#ifdef DEV_BOARD
+ #define SWITCH_LCD_IO_OUT LCD_DDR |=(_BV(LCD_CLK)|_BV(LCD_SID)|_BV(LCD_EN)|_BV(LCD_PSB))
+#else 
+ #define SWITCH_LCD_IO_OUT LCD_DDR |=(_BV(LCD_CLK)|_BV(LCD_SID)|_BV(LCD_EN)|_BV(LCD_RST)|_BV(LCD_BTL_EN))
+#endif
 #define SWITCH_LCD_IO_IN LCD_DDR &= ~_BV(LCD_SID)
 
 
@@ -32,7 +50,7 @@
 #define LCD12864_SID_1 LCD_PORT |= _BV(LCD_SID)
 #define LCD12864_SID_0 LCD_PORT &= ~_BV(LCD_SID)
 
-#define LCD12864_SET_PSB_SERIAL LCD_PORT &=~_BV(LCD_PSB)
+
 
 
 void lcd12864_init(void);
