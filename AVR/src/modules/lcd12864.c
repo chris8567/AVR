@@ -9,15 +9,14 @@
 #include "modules\lcd12864.h"
 #include <asf.h>
 #include <string.h>
+#include <stdlib.h>
+
 
 void lcd12864_init(void){
 	SWITCH_LCD_IO_OUT;
-#ifdef DEV_BOARD		
-	LCD12864_SET_PSB_SERIAL;
-#else
+
 	LCD12864_RESET;
 	LCD12864_BACKLIGHT_ENABLE;
-#endif
 
 	delay_ms(10);
 	lcd12864_send_cmd(0x30);
@@ -45,19 +44,16 @@ void lcd12864_send_data(uint8_t data){
 			LCD12864_SID_0;
 			data<<=1;
 		LCD12864_CLK_H;
-		nop();
+		nop();nop();nop();
 		LCD12864_CLK_L;	
 	}
 
 	
 }
 
-
 void lcd12864_wait_busy(void){
 delay_us(600);
 }
-
-
 
 void lcd12864_send_cmd(uint8_t cmd){
 	LCD12864_ENABLE;
@@ -105,15 +101,12 @@ void lcd12864_write_char(char data){
 	
 }
 
-
 void lcd12864_write_str(char *str){
 	uint8_t i;
 	for(i=0;str[i]!='\0';i++){
 		lcd12864_write_char(str[i]);
 	}
 }
-
-
 
 void lcd12864_loop(char *str){
 	static char buffer[4][16];
@@ -128,8 +121,19 @@ void lcd12864_loop(char *str){
 		lcd12864_set_pos(1,i+1);
 		lcd12864_write_str(buffer[i]);
 		
-	}
-	
-	
-	
+	}	
 }
+
+void lcd12864_write_float(float v){
+	char *str=" ";
+	itoa((int)v,str,10);
+	lcd12864_write_str(str);
+	lcd12864_write_char('.');
+	float digi = v - (int)v;
+	digi*=100;
+	itoa((int)digi,str,10);
+	lcd12864_write_str(str);
+}
+
+
+

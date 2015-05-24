@@ -1,5 +1,5 @@
-src/modules/buttons.d src/modules/buttons.o: ../src/modules/buttons.c \
- ../src/asf.h ../src/ASF/mega/drivers/cpu/mega_reset_cause.h \
+src/modules/adc.d src/modules/adc.o: ../src/modules/adc.c ../src/asf.h \
+ ../src/ASF/mega/drivers/cpu/mega_reset_cause.h \
  ../src/ASF/mega/utils/compiler.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
@@ -27,8 +27,11 @@ src/modules/buttons.d src/modules/buttons.o: ../src/modules/buttons.c \
  ../src/ASF/common/services/clock/mega/sysclk.h \
  ../src/ASF/common/boards/board.h \
  ../src/ASF/common/services/delay/mega/cycle_counter.h \
- ../src/ASF/mega/utils/status_codes.h ../src/modules/buttons.h \
- ../src/modules/lcd12864.h ../src/modules/timer0.h
+ ../src/ASF/mega/utils/status_codes.h \
+ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay.h \
+ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
+ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\math.h \
+ ../src/modules/adc.h
 
 ../src/asf.h:
 
@@ -96,8 +99,10 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-g
 
 ../src/ASF/mega/utils/status_codes.h:
 
-../src/modules/buttons.h:
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay.h:
 
-../src/modules/lcd12864.h:
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay_basic.h:
 
-../src/modules/timer0.h:
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\math.h:
+
+../src/modules/adc.h:

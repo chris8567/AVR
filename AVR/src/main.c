@@ -32,39 +32,36 @@
 #include "modules/lcd12864.h"
 #include "modules/buttons.h"
 #include "modules/timer0.h"
+#include "modules/menu.h"
+#include "modules/io.h"
 
-static void toggle_led(void){
-	static bool i=true;
-	if(i){
-		PORTC |=_BV(1);
-		i=false;
-	}
-	else{
-		PORTC &=~_BV(1);
-		i=true;
-	}
+#include <util/delay.h>
 
-	
-}
+
+
 
 
 int main (void)
 {
 	
-	/* Insert system clock initialization code here (sysclk_init()). */
-	DDRC = 0xff;
-	PORTC = 0xff;
-	board_init();
-
-	lcd12864_init();
-	buttons_init();
+	DDRB =0xff;
+	DDRF =0xff;
 	
-	lcd12864_set_pos(1,1);
-	lcd12864_write_str("Hello, World!");
+	
+	PORTB |=_BV(0); PORTF |=_BV(3);
+	
+	
+	/* Insert system clock initialization code here (sysclk_init()). */
+	buttons_init(); 
+	lcd12864_init();
+	init_IO();
+	
 	Timer0_Init();
 	
-	if(!Timer0_RegisterCallbackFunction(toggle_led))
-	lcd12864_loop("error");
+	draw_main_page();
+	
+
+	
 	
 	while(1){
 		;

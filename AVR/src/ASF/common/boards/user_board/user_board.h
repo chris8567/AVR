@@ -23,8 +23,8 @@
 // Uncomment and set correct values if external oscillator is used.
 
 // External oscillator frequency
-#define BOARD_XOSC_HZ          8000000
-#define F_CPU 8000000UL
+#define BOARD_XOSC_HZ          7372800UL
+#define F_CPU 7372800UL
 
 // External oscillator type.
 //!< External clock signal
@@ -37,11 +37,7 @@
 // External oscillator startup time
 //#define BOARD_XOSC_STARTUP_US  500000
 
-#define KEY_A 1
-#define KEY_B 2
-#define KEY_C 3
-#define KEY_D 4
-#define KEY_NULL 0
+
 
 
 
