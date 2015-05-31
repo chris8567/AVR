@@ -12,7 +12,7 @@
 #include "modules/io.h"
 
 uint8_t work_mode=1;
-
+bool alarm_flag = false;
 void draw_main_page(void){
 	ADC_init();
 	lcd12864_set_pos(1,1);
@@ -32,17 +32,25 @@ void draw_main_page(void){
 }
 
 void refresh_page(void){
-	float pd;
+	float pd, crr;
+
 	pd = ADC_read(PRESSURE);
+	crr= ADC_read(EMV);
 	lcd12864_set_pos(7,2);
 	lcd12864_write_float(pd);
-	static uint8_t t=0;
-	if(t){
-		Alarm(t); t=0;
+	//lcd12864_set_pos(11,3);
+	//lcd12864_write_float(crr);
+	
+	if(alarm_flag){
+		Alarm(ON); 
+		Clean(ON); 
+		alarm_flag=false;
 	}
 	else
 	{
-		Alarm(t); t=1;
+		Alarm(OFF); 
+		Clean(OFF);
+		alarm_flag=true;
 		
 	}
 	

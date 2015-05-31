@@ -9,12 +9,13 @@
 #ifndef IO_H_
 #define IO_H_
 #include <asf.h>
-#define  ON 1
-#define OFF 0
+#define  ON true
+#define OFF false
 
 void init_IO(void);
-void Alarm(uint8_t state);
-void Clean(uint8_t state);
+void Alarm(bool state);
+void Clean(bool state);
+
 
 
 

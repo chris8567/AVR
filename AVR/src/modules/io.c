@@ -8,17 +8,17 @@
 #include "modules/io.h"
 
 void init_IO(void){
-	DDRB |= _BV(0); 
-	DDRF |= _BV(3);
-	DDRG |= _BV(0);
+	DDRB |=_BV(0); 
+	DDRF |=_BV(3);
+	DDRG |=_BV(0);
 	
 	PORTB |= _BV(0);
-	PORTF |= _BV(0);
+	PORTF |= _BV(3);
 	PORTG &= ~_BV(0);
 	
 }
 
-void Alarm(uint8_t state){
+void Alarm(bool state){
 	if(state==ON){
 		PORTB &=~_BV(0);
 		PORTG |=_BV(0);
@@ -30,12 +30,12 @@ void Alarm(uint8_t state){
 	
 }
 
-void Clean(uint8_t state){
+void Clean(bool state){
 	if(state==ON){
-		PORTF &=~_BV(0);
+		PORTF &=~_BV(3);
 	}
 	else{
-		PORTF |= _BV(0);
+		PORTF |= _BV(3);
 	}
 	
 }

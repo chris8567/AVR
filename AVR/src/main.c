@@ -43,12 +43,7 @@
 
 int main (void)
 {
-	
-	DDRB =0xff;
-	DDRF =0xff;
-	
-	
-	PORTB |=_BV(0); PORTF |=_BV(3);
+
 	
 	
 	/* Insert system clock initialization code here (sysclk_init()). */
@@ -60,11 +55,11 @@ int main (void)
 	
 	draw_main_page();
 	
-
-	
+	Alarm(ON);
+	Clean(ON);
 	
 	while(1){
-		;
+;
 
 	}
 		
