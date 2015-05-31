@@ -50,13 +50,12 @@ int main (void)
 	buttons_init(); 
 	lcd12864_init();
 	init_IO();
-	
 	Timer0_Init();
-	
 	draw_main_page();
 	
-	Alarm(ON);
-	Clean(ON);
+	
+	
+
 	
 	while(1){
 ;
