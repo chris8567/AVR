@@ -32,10 +32,10 @@ void draw_main_page(void){
 }
 
 void refresh_page(void){
-	uint16_t pd;
-	pd = ADC_read();
+	float pd;
+	pd = ADC_read(PRESSURE);
 	lcd12864_set_pos(7,2);
-	lcd12864_write_float((float)pd);
+	lcd12864_write_float(pd);
 	static uint8_t t=0;
 	if(t){
 		Alarm(t); t=0;

@@ -17,7 +17,7 @@
 #define ADC_CHANN 6
 #define SCALE 1000
 void ADC_init(void);
-uint16_t ADC_read(uint8_t target);
+float ADC_read(uint8_t target);
 uint16_t ADC_readonce(void);
 
 
