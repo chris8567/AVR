@@ -8,6 +8,8 @@ src\ASF\common\services\clock\mega\sysclk.c
 
 src\modules\adc.c
 
+src\modules\emv.c
+
 src\modules\io.c
 
 src\modules\menu.c
