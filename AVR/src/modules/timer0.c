@@ -46,7 +46,7 @@ ISR(TIMER0_COMP_vect){
 	
 }
 
-bool Timer0_RegisterCallbackFunction(TIMER_CALLBACK_FUNC pFunc)
+bool Timer0_RegisterCallbackFunction(TIMER_CALLBACK_FUNC pFunc, uint16_t time_interval)
 {
 	uint8_t i;
 	
