@@ -25,7 +25,7 @@ DRV_SCLR:	PG4
 #define SCK_HIGH PORTG|=_BV(3)
 #define SCK_LOW PORTG &=~_BV(3)
 #define MR_HIGH PORTG |=_BV(4)
-#define MR_LOW &=~_BV(4)
+#define MR_LOW PORTG &=~_BV(4)
 
 
 void emv_ports_init(void);

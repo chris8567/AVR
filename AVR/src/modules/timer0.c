@@ -7,41 +7,49 @@
 
 #include <asf.h>
 #include "modules/timer0.h"
+#include <avr/io.h>
 
-TIMER_CALLBACK_FUNC CallbackFunc[TIMER0_NUM_CALLBACKS];
+timer_event EventList[TIMER0_NUM_CALLBACKS];
 uint8_t CountDownTimers[TIMER0_NUM_COUNTDOWNTIMERS];
+
 
 void Timer0_Init(void){
 		uint8_t i;
-		for (i=0; i<TIMER0_NUM_CALLBACKS; i++)
-		CallbackFunc[i] = NULL;
+		for (i=0; i<TIMER0_NUM_CALLBACKS; i++){
+		EventList[i].pFunc = NULL;
+		EventList[i].event_intval = 0;
+		EventList[i].counter = 0;
+		}
 		for (i=0; i<TIMER0_NUM_COUNTDOWNTIMERS; i++)
 		CountDownTimers[i] = 0xff;
-		TCCR0 = 0x07;
-		TCNT0 = 0;
-		TIFR |=_BV(TOV0);
-		TIMSK |= _BV(OCIE0);
-		sei();
+			TCCR0 = 72;
+			TCNT0 = 0;
+			TIFR |=_BV(TOV0);
+			TIMSK |= _BV(OCIE0);
+			sei();
 }
 
-void timer0_event(void){
-	uint8_t i;
-	for (i=0; i<TIMER0_NUM_CALLBACKS; i++)
-	if (CallbackFunc[i] != NULL)
-	CallbackFunc[i]();
-	
-	for (i=0; i<TIMER0_NUM_COUNTDOWNTIMERS; i++)
-	if (CountDownTimers[i] != 0xff && CountDownTimers[i] != 0)
-	CountDownTimers[i]--;
-	
-}
 
 ISR(TIMER0_COMP_vect){
-
-	static uint8_t count=0;
-	if(count++==30){
-		timer0_event();
-		count = 0;
+	static uint16_t tmp_counter=0;
+	uint8_t i;
+	for(i=0;i<TIMER0_NUM_CALLBACKS;i++){
+		if(EventList[i].pFunc !=NULL){
+			if(EventList[i].counter == EventList[i].event_intval){
+				EventList[i].counter = 0;
+				EventList[i].pFunc();
+			}
+		else 
+			EventList[i].counter++;
+		}
+	}
+	
+	if(tmp_counter++==100){
+		for(i=0;i<TIMER0_NUM_COUNTDOWNTIMERS;i++){
+			if(CountDownTimers[i] != 0xff && CountDownTimers[i]!=0)
+				CountDownTimers[i]--;
+		}
+		tmp_counter =0;
 	}
 	
 }
@@ -49,18 +57,22 @@ ISR(TIMER0_COMP_vect){
 bool Timer0_RegisterCallbackFunction(TIMER_CALLBACK_FUNC pFunc, uint16_t time_interval)
 {
 	uint8_t i;
-	
+	if(time_interval < 10) 
+		time_interval = 10;
+		
 	for (i=0; i<TIMER0_NUM_CALLBACKS; i++)
 	{
-		if (CallbackFunc[i] == pFunc)
+		if (EventList[i].pFunc == pFunc)
 		return true;
 	}
 	
 	for (i=0; i<TIMER0_NUM_CALLBACKS; i++)
 	{
-		if (CallbackFunc[i] == NULL)
+		if (EventList[i].pFunc == NULL)
 		{
-			CallbackFunc[i] = pFunc;
+			EventList[i].pFunc = pFunc;
+			EventList[i].event_intval = time_interval/10;
+			EventList[i].counter = 0;
 			return true;
 		}
 	}
@@ -74,9 +86,11 @@ bool Timer0_RemoveCallbackFunction(TIMER_CALLBACK_FUNC pFunc)
 	
 	for (i=0; i<TIMER0_NUM_CALLBACKS; i++)
 	{
-		if (CallbackFunc[i] == pFunc)
+		if (EventList[i].pFunc == pFunc)
 		{
-			CallbackFunc[i] = NULL;
+			EventList[i].pFunc = NULL;
+			EventList[i].event_intval =0;
+			EventList[i].counter = 0;
 			return true;
 		}
 	}

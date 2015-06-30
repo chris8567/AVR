@@ -10,48 +10,76 @@
 #include "modules/adc.h"
 #include "modules/timer0.h"
 #include "modules/io.h"
+#include "modules/actions.h"
+
+uint16_t Current_State = MENU_STATE_MAIN; 
+Type_Screen_Buffer Screen_Buffer;
+
+char *Display_Strings[DISPLAY_STR_LENGTH] = {\
+	"     ",\
+	"当前压差:",\
+	"时间:",\
+	"状态  菜单  报警",\
+	"返回",\
+	"系统状态和设置",\
+	"工作模式选择",\
+	"喷吹设置",\
+	"报警设置",\
+	"退出菜单"\
+	"系统运行时间",\
+	"喷吹次数",\
+	"关于本机",\
+	"设置锁定",\
+	"单位设置",\
+	"扩展板",\
+	"压差模式一",\
+	"压差模式二",\
+	"压差模式三",\
+	"时序控制模式",\
+	"压差模式五",\
+	"正在启用",\
+	"关闭中",\
+	"压差上限",\
+	"压差下限",\
+	"压差下限百分比",\
+	"最小喷吹频率",\
+	"喷吹时间间隔"\
+};
+
+
+Type_StateList State_List[STATE_LIST_LENGTH]={\
+	{MENU_STATE_MAIN,			MENU_STATE_MAIN,		MENU_STATE_MAIN,				MENU_STATE_MAIN,			MENU_STATE_MAIN,			MENU_STATE_ITEMLIST_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			Act_Update_Main},\
+	{MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P2,			MENU_STATE_ITEMLIST_P1,		MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P1,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_ITEMLIST_P2,	MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P3,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_ITEMLIST_P3,	MENU_STATE_ITEMLIST_P2,	MENU_STATE_ITEMLIST_P4,			MENU_STATE_ITEMLIST_P3,		MENU_STATE_ITEMLIST_P3,		MENU_STATE_ITEMLIST_P3,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_ITEMLIST_P4,	MENU_STATE_ITEMLIST_P3,	MENU_STATE_ITEMLIST_P5,			MENU_STATE_ITEMLIST_P4,		MENU_STATE_ITEMLIST_P4,		MENU_STATE_ITEMLIST_P4,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_ITEMLIST_P5,	MENU_STATE_ITEMLIST_P4,	MENU_STATE_ITEMLIST_P5,			MENU_STATE_ITEMLIST_P5,		MENU_STATE_ITEMLIST_P5,		MENU_STATE_MAIN,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_SYS_P1,			MENU_STATE_SYS_P1,		MENU_STATE_SYS_P2,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P1,			MENU_STATE_SYS_P1,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_SYS_P2,			MENU_STATE_SYS_P1,		MENU_STATE_SYS_P3,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P2,			MENU_STATE_SYS_P2,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_SYS_P3			MENU_STATE_SYS_P2,		MENU_STATE_SYS_P4,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P3,			MENU_STATE_SYS_P3,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_SYS_P4,			MENU_STATE_SYS_P3,		MENU_STATE_SYS_P5,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P4,			MENU_STATE_SYS_P4,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_SYS_P5,			MENU_STATE_SYS_P4,		MENU_STATE_SYS_P5,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P5,			MENU_STATE_SYS_P5,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_MODESEL_P1,		MENU_STATE_MODESEL_P1,	MENU_STATE_MODESEL_P2,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_MODESEL_P2,		MENU_STATE_MODESEL_P1,	MENU_STATE_MODESEL_P3			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P2,		MENU_STATE_PD_MODE2_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_MODESEL_P3,		MENU_STATE_MODESEL_P2,	MENU_STATE_MODESEL_P4,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P3,		MENU_STATE_PD_MODE3_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_MODESEL_P4,		MENU_STATE_MODESEL_P3,	MENU_STATE_MODESEL_P4,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P4,		MENU_STATE_MODESEL_P4,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
+	{MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P2,			MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P1,		MENU_STATE_PD_MODE1_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			}
+	
+	};
+//	CurrentState				UP_NEXT					DOWN_NEXT						LEFT_NEXT					RIGHT_NEXT					ENT_NEXT					UP_ACTION		DOWN_ACTION			LEFT_ACTION		RIGHT_ACTION		ENT_ACTION		TIMER_ACTI
+	
+		
 
 uint8_t work_mode=1;
 bool alarm_flag = true;
+uint16_t menu_status =0;
 void draw_main_page(void){
-	ADC_init();
-	lcd12864_set_pos(1,1);
-	lcd12864_write_char('0'+work_mode);
-	lcd12864_set_pos(8,1);
-	lcd12864_write_char(BLOWING_SYM);
-	lcd12864_set_pos(15,1);
-	lcd12864_write_char(ALARM_SYM);
-	lcd12864_set_pos(1,2);
-	lcd12864_write_str(STR_PRESSURE_DIFF);
-	lcd12864_set_pos(1,3);
-	lcd12864_write_str("喷吹电流:");
-	lcd12864_set_pos(1,4);
-	lcd12864_write_str(STR_MENU_FOOTER1);
-	Timer0_RegisterCallbackFunction(refresh_page);
-	
+
+	;
 }
 
 void refresh_page(void){
-	float pd, crr;
 
-	pd = ADC_read(PRESSURE);
-	crr= ADC_read(EMV);
-	lcd12864_set_pos(7,2);
-	lcd12864_write_float(pd);
-	lcd12864_set_pos(11,3);
-	lcd12864_write_float(crr);
 	
-	if(alarm_flag){
-		Alarm(ON); 
-		Clean(ON); 
-		alarm_flag=false;
-	}
-	else{
-		Alarm(OFF); 
-		Clean(OFF);
-		alarm_flag=true;
 		
-	}
-	
-	
 }

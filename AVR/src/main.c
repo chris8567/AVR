@@ -34,6 +34,7 @@
 #include "modules/timer0.h"
 #include "modules/menu.h"
 #include "modules/io.h"
+#include "modules/emv.h"
 
 #include <util/delay.h>
 
@@ -50,8 +51,10 @@ int main (void)
 	buttons_init(); 
 	lcd12864_init();
 	init_IO();
+	emv_ports_init();
 	Timer0_Init();
 	draw_main_page();
+	
 	
 	
 	

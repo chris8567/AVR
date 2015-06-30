@@ -6,6 +6,8 @@ src\ASF\common\services\calendar\calendar.c
 
 src\ASF\common\services\clock\mega\sysclk.c
 
+src\modules\actions.c
+
 src\modules\adc.c
 
 src\modules\emv.c

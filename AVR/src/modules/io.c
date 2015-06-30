@@ -21,11 +21,11 @@ void init_IO(void){
 void Alarm(bool state){
 	if(state==ON){
 		PORTB &=~_BV(0);
-		PORTG |=_BV(0);
+		//PORTG |=_BV(0);
 	}
 	else{
 		PORTB |= _BV(0);
-		PORTG &= ~_BV(0);
+		//PORTG &= ~_BV(0);
 	}
 	
 }

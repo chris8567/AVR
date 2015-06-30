@@ -61,6 +61,7 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../src/ASF/common/services/calendar/calendar.c \
 ../src/ASF/common/services/clock/mega/sysclk.c \
+../src/modules/actions.c \
 ../src/modules/adc.c \
 ../src/modules/emv.c \
 ../src/modules/io.c \
@@ -81,6 +82,7 @@ ASM_SRCS +=
 OBJS +=  \
 src/ASF/common/services/calendar/calendar.o \
 src/ASF/common/services/clock/mega/sysclk.o \
+src/modules/actions.o \
 src/modules/adc.o \
 src/modules/emv.o \
 src/modules/io.o \
@@ -94,6 +96,7 @@ src/main.o
 OBJS_AS_ARGS +=  \
 src/ASF/common/services/calendar/calendar.o \
 src/ASF/common/services/clock/mega/sysclk.o \
+src/modules/actions.o \
 src/modules/adc.o \
 src/modules/emv.o \
 src/modules/io.o \
@@ -107,6 +110,7 @@ src/main.o
 C_DEPS +=  \
 src/ASF/common/services/calendar/calendar.d \
 src/ASF/common/services/clock/mega/sysclk.d \
+src/modules/actions.d \
 src/modules/adc.d \
 src/modules/emv.d \
 src/modules/io.d \
@@ -120,6 +124,7 @@ src/main.d
 C_DEPS_AS_ARGS +=  \
 src/ASF/common/services/calendar/calendar.d \
 src/ASF/common/services/clock/mega/sysclk.d \
+src/modules/actions.d \
 src/modules/adc.d \
 src/modules/emv.d \
 src/modules/io.d \
@@ -144,6 +149,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

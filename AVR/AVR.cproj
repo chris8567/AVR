@@ -234,6 +234,12 @@
     <Compile Include="src\ASF\common\services\clock\mega\sysclk.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\modules\actions.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\actions.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\modules\adc.c">
       <SubType>compile</SubType>
     </Compile>

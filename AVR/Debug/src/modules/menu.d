@@ -29,7 +29,7 @@ src/modules/menu.d src/modules/menu.o: ../src/modules/menu.c ../src/asf.h \
  ../src/ASF/common/services/delay/mega/cycle_counter.h \
  ../src/ASF/mega/utils/status_codes.h ../src/modules/menu.h \
  ../src/modules/lcd12864.h ../src/modules/adc.h ../src/modules/timer0.h \
- ../src/modules/io.h
+ ../src/modules/io.h ../src/modules/actions.h
 
 ../src/asf.h:
 
@@ -106,3 +106,5 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-g
 ../src/modules/timer0.h:
 
 ../src/modules/io.h:
+
+../src/modules/actions.h:

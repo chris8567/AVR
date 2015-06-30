@@ -17,9 +17,13 @@ uint8_t blower_on_time_ms = 100;
 uint8_t blower_interval_s = 2; 
 void emv_ports_init(void){
 	DDRB |= _BV(7)|_BV(6)|_BV(5);
-	DDRG |= _BV(4)|_BV(4);
+	DDRG |= _BV(3)|_BV(4);
+	SCK_LOW;
+	RCK_LOW;
 	MR_HIGH;
 	OEn_LOW;
+
+	
 	
 }
 
@@ -29,13 +33,13 @@ void set_emv_ctrl_word(uint16_t emv_word){
 	
 }
 
-void set_emv_channel(uint8_t channel){
+void unset_emv_channel(uint8_t channel){
 	if(channel>0 && channel <=16)
 	emv_switches |= _BV(channel);
 	emv_refresh();
 }
 
-void unset_emv_channel(uint8_t channel){
+void set_emv_channel(uint8_t channel){
 		if(channel>0 && channel <=16)
 		emv_switches &=~_BV(channel);
 		emv_refresh();
@@ -45,16 +49,20 @@ void unset_emv_channel(uint8_t channel){
 void emv_refresh(void){
 	uint8_t i=0;
 	uint16_t buffer = emv_switches;
-	SCK_LOW;
-	RCK_LOW;
+
 	for(i=0;i<16;i++){
-		if(buffer & 0x01) DATA_HIGH;
+		if(buffer & 0x8000) DATA_HIGH;
 		else DATA_LOW;
-		buffer = buffer>>1;
+		buffer <<=1;
+		_delay_us(10);
 		SCK_HIGH; 
+		_delay_us(10);
 		SCK_LOW;
+		_delay_us(10);
 	}
 	RCK_HIGH;
+	_delay_us(10);
+	RCK_LOW;
 	
 }
 
@@ -79,7 +87,7 @@ void blow_seq(void){
 	if(count++!=0 && count <= blower_interval_s) return;
 	if(emv_control_word | _BV(i)){
 		set_emv_channel(i);
-		//_delay_ms(blower_on_time_ms);
+		//delay_ms(blower_on_time_ms);
 		unset_emv_channel(i);
 	}
 	else{

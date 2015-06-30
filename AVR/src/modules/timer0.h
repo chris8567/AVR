@@ -12,12 +12,17 @@
 
 typedef void (*TIMER_CALLBACK_FUNC) (void);
 
-#define TIMER0_NUM_CALLBACKS        4
-#define TIMER0_NUM_COUNTDOWNTIMERS  4
+#define TIMER0_NUM_CALLBACKS        8
+#define TIMER0_NUM_COUNTDOWNTIMERS  8
+typedef struct Event_Struct{
+	TIMER_CALLBACK_FUNC pFunc;
+	uint16_t event_intval;
+	uint16_t counter;
+	}timer_event;
 
 void Timer0_Init(void);
 
-bool Timer0_RegisterCallbackFunction(TIMER_CALLBACK_FUNC pFunc);
+bool Timer0_RegisterCallbackFunction(TIMER_CALLBACK_FUNC pFunc,uint16_t intv_time);
 bool Timer0_RemoveCallbackFunction(TIMER_CALLBACK_FUNC pFunc);
 
 
