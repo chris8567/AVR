@@ -52,7 +52,7 @@ void lcd12864_send_data(uint8_t data){
 }
 
 void lcd12864_wait_busy(void){
-delay_us(600);
+delay_us(300);
 }
 
 void lcd12864_send_cmd(uint8_t cmd){
@@ -83,9 +83,9 @@ void lcd12864_set_pos(uint8_t x, uint8_t y){
 	
 	if(x>16) return; 
 	
-	lcd12864_send_cmd(tmp+(x+1)/2-1);
-	if(x%2==0)
-		lcd12864_write_char(0x20);
+	lcd12864_send_cmd(tmp+x);
+	//if(x%2==0)
+//		lcd12864_write_char(0x20);
 	
 
 	
