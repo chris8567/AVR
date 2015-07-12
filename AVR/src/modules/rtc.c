@@ -1,20 +1,20 @@
 #include <asf.h>
 #include "modules/rtc.h"
 
-void ds1302_update_time(struct rtc_time *time, uint_8t field){
+void ds1302_update_time(struct rtc_time *time, uint8_t field){
 
 	ds1302_comms(time, field, 0, READ);
 
 }
 
-void ds1302_set_time(struct rtc_time *time, uint_8t field, uint_8t w_byte){
+void ds1302_set_time(struct rtc_time *time, uint8_t field, uint8_t w_byte){
 	
 	ds1302_comms(time, field, w_byte, WRITE);
 
 }
 
-void ds1302_comms(struct rtc_time *time, uint_8t field, uint_8t w_byte, uint_8t rw){
-	uint_8t temp; 
+void ds1302_comms(struct rtc_time *time, uint8_t field, uint8_t w_byte, uint8_t rw){
+	uint8_t temp; 
 	if(rw == READ)
 	{
 		switch(field){
@@ -57,7 +57,7 @@ void ds1302_comms(struct rtc_time *time, uint_8t field, uint_8t w_byte, uint_8t 
 			time->date = ((temp & 0x0F) + ((temp & 0x30 )>>4)*10);
 			break;
 		case MONTH:
-			temp ds1302_read_byte(month_r);
+			temp=ds1302_read_byte(month_r);
 			time->month = ((temp & 0x0F) + ((temp & 0x10)>>4)*10);
 			break;
 		case YEAR:

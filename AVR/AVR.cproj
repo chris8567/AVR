@@ -267,6 +267,12 @@
     <Compile Include="src\modules\menu.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\modules\rtc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\rtc.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\modules\timer0.c">
       <SubType>compile</SubType>
     </Compile>

@@ -67,6 +67,7 @@ C_SRCS +=  \
 ../src/modules/emv.c \
 ../src/modules/io.c \
 ../src/modules/menu.c \
+../src/modules/rtc.c \
 ../src/modules/timer0.c \
 ../src/modules/buttons.c \
 ../src/modules/lcd12864.c \
@@ -88,6 +89,7 @@ src/modules/adc.o \
 src/modules/emv.o \
 src/modules/io.o \
 src/modules/menu.o \
+src/modules/rtc.o \
 src/modules/timer0.o \
 src/modules/buttons.o \
 src/modules/lcd12864.o \
@@ -102,6 +104,7 @@ src/modules/adc.o \
 src/modules/emv.o \
 src/modules/io.o \
 src/modules/menu.o \
+src/modules/rtc.o \
 src/modules/timer0.o \
 src/modules/buttons.o \
 src/modules/lcd12864.o \
@@ -116,6 +119,7 @@ src/modules/adc.d \
 src/modules/emv.d \
 src/modules/io.d \
 src/modules/menu.d \
+src/modules/rtc.d \
 src/modules/timer0.d \
 src/modules/buttons.d \
 src/modules/lcd12864.d \
@@ -130,6 +134,7 @@ src/modules/adc.d \
 src/modules/emv.d \
 src/modules/io.d \
 src/modules/menu.d \
+src/modules/rtc.d \
 src/modules/timer0.d \
 src/modules/buttons.d \
 src/modules/lcd12864.d \
@@ -149,6 +154,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

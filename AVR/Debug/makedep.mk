@@ -18,6 +18,8 @@ src\modules\io.c
 
 src\modules\menu.c
 
+src\modules\rtc.c
+
 src\modules\timer0.c
 
 src\modules\buttons.c
