@@ -8,15 +8,23 @@
 
 #ifndef MENU_H_
 #define MENU_H_
+#include "modules/timer0.h"
 
 #define BLOWING_SYM 0x0F
 #define ALARM_SYM 0x21
 
 #define DISPLAY_STR_LENGTH	29
-#define STATE_LIST_LENGTH	17
+#define STATE_LIST_LENGTH	20
+typedef void (*ACTION_CALLBACK_FUNC) (void);
 
 
 extern char *Display_Strings[DISPLAY_STR_LENGTH];
+extern uint8_t PD_Mode;
+extern uint8_t Alarm_State;
+extern uint8_t Blowing_State;
+
+extern uint16_t BlowPresureUpperLimit;
+extern uint16_t BlowPresureLowerLimit;
 
 typedef struct State{
 	uint16_t	Current_State;
@@ -25,12 +33,13 @@ typedef struct State{
 	uint16_t	Left_Next_State;
 	uint16_t	Right_Next_State;
 	uint16_t	Ent_Next_State;
-	void		(*Up_Action)(void);
-	void		(*Down_Action)(void);
-	void		(*Left_Action)(void);
-	void		(*Right_Action)(void);
-	void		(*Timer_Action)(void);
-	void		(*Ent_Action)(void);
+	
+	ACTION_CALLBACK_FUNC Up_Action;
+	ACTION_CALLBACK_FUNC Down_Action;
+	ACTION_CALLBACK_FUNC Left_Action;
+	ACTION_CALLBACK_FUNC Right_Action;
+	ACTION_CALLBACK_FUNC Ent_Action;
+	TIMER_CALLBACK_FUNC	Timer_Action;
 	}Type_State;
 	
 extern Type_State *SYS_State;
@@ -94,6 +103,7 @@ void DrawScreen(void);
 
 Type_State *FindState(uint16_t statename);
 void State_Update(void); 
+uint8_t Get_Workmode(void);
 
 
 #endif /* MENU_H_ */

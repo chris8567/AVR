@@ -35,11 +35,12 @@
 #include "modules/menu.h"
 #include "modules/io.h"
 #include "modules/emv.h"
+#include "modules/adc.h"
 
 #include <util/delay.h>
 
 
-
+#include "modules/actions.h"
 
 
 int main (void)
@@ -51,12 +52,12 @@ int main (void)
 	init_IO();
 	emv_ports_init();
 	Timer0_Init();
+	ADC_init();
 	Menu_Init();
 	
 	
-	
-	
-
+	//lcd12864_set_pos(1,1);
+	//lcd12864_write_str("ab");
 	
 	while(1){
 	Menu_Poll();

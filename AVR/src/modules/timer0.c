@@ -22,16 +22,18 @@ void Timer0_Init(void){
 		}
 		for (i=0; i<TIMER0_NUM_COUNTDOWNTIMERS; i++)
 		CountDownTimers[i] = 0xff;
-			TCCR0 = 72;
-			TCNT0 = 0;
-			TIFR |=_BV(TOV0);
-			TIMSK |= _BV(OCIE0);
+		TCCR0 =0;
+		TCCR0 |= _BV(CS00)|_BV(CS01)|_BV(CS02);
+		TCNT0 = 184;
+		TIFR |=_BV(TOV0);
+		TIMSK |= _BV(OCIE0);
 			sei();
 }
 
 
 ISR(TIMER0_COMP_vect){
 	static uint16_t tmp_counter=0;
+	TCNT0 = 184;
 	uint8_t i;
 	for(i=0;i<TIMER0_NUM_CALLBACKS;i++){
 		if(EventList[i].pFunc !=NULL){

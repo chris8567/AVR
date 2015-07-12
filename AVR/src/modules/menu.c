@@ -17,6 +17,10 @@ Type_State *SYS_State=NULL;
 Type_Screen_Buffer SYS_Screen_Buffer;
 TIMER_CALLBACK_FUNC Current_TimerFunc = NULL;
 uint8_t PD_Mode = 1;
+uint8_t Alarm_State = 0;
+uint8_t Blowing_State = 0;
+uint16_t BlowPresureUpperLimit=800;
+uint16_t BlowPresureLowerLimit=600;
 
 char *Display_Strings[DISPLAY_STR_LENGTH] = {\
 	"            ",\
@@ -68,12 +72,16 @@ Type_State State_List[STATE_LIST_LENGTH]={\
 	{MENU_STATE_MODESEL_P3,		MENU_STATE_MODESEL_P2,	MENU_STATE_MODESEL_P4,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P3,		MENU_STATE_PD_MODE3_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
 	{MENU_STATE_MODESEL_P4,		MENU_STATE_MODESEL_P3,	MENU_STATE_MODESEL_P4,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P4,		MENU_STATE_MODESEL_P4,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
 	{MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P2,			MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P1,		MENU_STATE_PD_MODE1_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL    },\
-	{MENU_STATE_PD_MODE1_P2,	MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P3,			MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P1,		MENU_STATE_PD_MODE1_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL    }\
+	{MENU_STATE_PD_MODE1_P2,	MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P3,			MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P2,		MENU_STATE_PD_MODE1_P2,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL    },\
+	{MENU_STATE_PD_MODE1_P3,	MENU_STATE_PD_MODE1_P2,	MENU_STATE_PD_MODE1_P3,			MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P3,		MENU_STATE_PD_MODE1_P3,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL    }\
 	
 	};
 //	CurrentState				UP_NEXT					DOWN_NEXT						LEFT_NEXT					RIGHT_NEXT					ENT_NEXT					UP_ACTION		DOWN_ACTION			LEFT_ACTION		RIGHT_ACTION		ENT_ACTION		TIMER_ACTI
 	  
 
+uint8_t Get_Workmode(void){
+	return PD_Mode;
+}
 
 	void DrawScreen(void){
 		lcd12864_clear();
@@ -116,6 +124,9 @@ Type_State *FindState(uint16_t statename){
 	
 	void Menu_Init(void){
 		SYS_State = FindState(MENU_STATE_MAIN);
+	
+		//Current_TimerFunc();
+		Timer0_RegisterCallbackFunction(SYS_State->Timer_Action,1000);
 		State_Update();
 		DrawScreen();
 	}
@@ -269,7 +280,7 @@ Type_State *FindState(uint16_t statename){
 				SYS_Screen_Buffer.line[1] = Display_Strings[23];
 				SYS_Screen_Buffer.line[2] = Display_Strings[24];
 				SYS_Screen_Buffer.line[3] = Display_Strings[28];
-				SYS_Screen_Buffer.white_index=1;
+				SYS_Screen_Buffer.white_index=3;
 				break;
 			default:
 				break;
@@ -285,8 +296,6 @@ Type_State *FindState(uint16_t statename){
 				if(SYS_State->Right_Action!=NULL)
 					SYS_State->Right_Action();
 				SYS_State = FindState(SYS_State->Right_Next_State);
-				lcd12864_set_pos(1,1);
-				lcd12864_write_char('>');
 				State_Update();
 				DrawScreen();
 				break;
@@ -322,6 +331,14 @@ Type_State *FindState(uint16_t statename){
 
 				break;
 		}
-
+	if(key != KEY_NULL){
+			Timer0_RemoveCallbackFunction(Current_TimerFunc);
+			Current_TimerFunc = SYS_State->Timer_Action;
+			if(Current_TimerFunc != NULL){
+			Current_TimerFunc();
+			Timer0_RegisterCallbackFunction(Current_TimerFunc,1000);}
+			
 		
+	}
+	
 	}
