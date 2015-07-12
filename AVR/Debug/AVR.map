@@ -54,9 +54,9 @@ c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-t
 Allocating common symbols
 Common symbol       size              file
 
+SYS_Screen_Buffer   0x9               src/modules/menu.o
 CountDownTimers     0x8               src/modules/timer0.o
 EventList           0x30              src/modules/timer0.o
-Screen_Buffer       0x7               src/modules/menu.o
 CountdownTimerHandler
                     0x1               src/modules/buttons.o
 
@@ -228,19 +228,7 @@ Discarded input sections
  .text          0x00000000        0x0 src/modules/actions.o
  .data          0x00000000        0x0 src/modules/actions.o
  .bss           0x00000000        0x0 src/modules/actions.o
- .text.Act_Update_Main
-                0x00000000        0x2 src/modules/actions.o
- .debug_info    0x00000000       0x44 src/modules/actions.o
- .debug_abbrev  0x00000000       0x31 src/modules/actions.o
- .debug_aranges
-                0x00000000       0x20 src/modules/actions.o
- .debug_ranges  0x00000000       0x10 src/modules/actions.o
- .debug_macro   0x00000000       0x1b src/modules/actions.o
  .debug_macro   0x00000000      0xa48 src/modules/actions.o
- .debug_line    0x00000000       0x53 src/modules/actions.o
- .debug_str     0x00000000     0x2abe src/modules/actions.o
- .comment       0x00000000       0x31 src/modules/actions.o
- .debug_frame   0x00000000       0x24 src/modules/actions.o
  .group         0x00000000        0x8 src/modules/adc.o
  .group         0x00000000        0x8 src/modules/adc.o
  .group         0x00000000        0x8 src/modules/adc.o
@@ -533,24 +521,11 @@ Discarded input sections
  .group         0x00000000        0x8 src/modules/menu.o
  .group         0x00000000        0x8 src/modules/menu.o
  .group         0x00000000        0x8 src/modules/menu.o
+ .group         0x00000000        0x8 src/modules/menu.o
  .text          0x00000000        0x0 src/modules/menu.o
  .data          0x00000000        0x0 src/modules/menu.o
  .bss           0x00000000        0x0 src/modules/menu.o
- .text.refresh_page
-                0x00000000        0x2 src/modules/menu.o
- .bss.menu_status
-                0x00000000        0x2 src/modules/menu.o
- .data.alarm_flag
-                0x00000000        0x1 src/modules/menu.o
- .data.work_mode
-                0x00000000        0x1 src/modules/menu.o
- .data.State_List
-                0x00000000       0x30 src/modules/menu.o
- .rodata.str1.1
-                0x00000000      0x11c src/modules/menu.o
- .data.Display_Strings
-                0x00000000       0x38 src/modules/menu.o
- .bss.Current_State
+ .bss.Current_TimerFunc
                 0x00000000        0x2 src/modules/menu.o
  .debug_macro   0x00000000      0xa48 src/modules/menu.o
  .debug_macro   0x00000000       0x10 src/modules/menu.o
@@ -586,7 +561,6 @@ Discarded input sections
  .debug_macro   0x00000000       0x34 src/modules/menu.o
  .debug_macro   0x00000000       0x16 src/modules/menu.o
  .debug_macro   0x00000000       0x16 src/modules/menu.o
- COMMON         0x00000000        0x7 src/modules/menu.o
  .group         0x00000000        0x8 src/modules/timer0.o
  .group         0x00000000        0x8 src/modules/timer0.o
  .group         0x00000000        0x8 src/modules/timer0.o
@@ -699,7 +673,6 @@ Discarded input sections
  .text          0x00000000        0x0 src/modules/buttons.o
  .data          0x00000000        0x0 src/modules/buttons.o
  .bss           0x00000000        0x0 src/modules/buttons.o
- .text.getkey   0x00000000       0x18 src/modules/buttons.o
  .bss.gButtonTimerpout
                 0x00000000        0x1 src/modules/buttons.o
  .debug_macro   0x00000000      0xa48 src/modules/buttons.o
@@ -733,6 +706,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x64 src/modules/buttons.o
  .debug_macro   0x00000000       0x28 src/modules/buttons.o
  .debug_macro   0x00000000       0x1d src/modules/buttons.o
+ .debug_macro   0x00000000       0x64 src/modules/buttons.o
  .debug_macro   0x00000000       0x76 src/modules/buttons.o
  .debug_macro   0x00000000       0x16 src/modules/buttons.o
  .group         0x00000000        0x8 src/modules/lcd12864.o
@@ -771,14 +745,6 @@ Discarded input sections
  .text          0x00000000        0x0 src/modules/lcd12864.o
  .data          0x00000000        0x0 src/modules/lcd12864.o
  .bss           0x00000000        0x0 src/modules/lcd12864.o
- .text.lcd12864_clear
-                0x00000000        0xc src/modules/lcd12864.o
- .text.lcd12864_write_char
-                0x00000000       0x28 src/modules/lcd12864.o
- .text.lcd12864_set_pos
-                0x00000000       0x52 src/modules/lcd12864.o
- .text.lcd12864_write_str
-                0x00000000       0x2a src/modules/lcd12864.o
  .text.lcd12864_loop
                 0x00000000       0x5e src/modules/lcd12864.o
  .rodata.str1.1
@@ -971,7 +937,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x76 src/main.o
  .debug_macro   0x00000000       0x64 src/main.o
  .debug_macro   0x00000000       0x16 src/main.o
- .debug_macro   0x00000000       0xa0 src/main.o
+ .debug_macro   0x00000000       0xfa src/main.o
  .debug_macro   0x00000000       0x16 src/main.o
  .debug_macro   0x00000000       0x46 src/main.o
  .debug_macro   0x00000000       0x10 src/main.o
@@ -1306,7 +1272,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x3ca
+.text           0x00000000      0xd44
  *(.vectors)
  .vectors       0x00000000       0x8c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51/crtm128a.o
                 0x00000000                __vector_default
@@ -1398,51 +1364,80 @@ END GROUP
                 0x000000c6                __vector_20
                 0x000000c8                . = ALIGN (0x2)
  *(.text.*)
+ .text.Act_Update_Main
+                0x000000c8        0x2 src/modules/actions.o
+                0x000000c8                Act_Update_Main
  .text.emv_ports_init
-                0x000000c8       0x26 src/modules/emv.o
-                0x000000c8                emv_ports_init
- .text.init_IO  0x000000ee       0x2e src/modules/io.o
-                0x000000ee                init_IO
- .text.draw_main_page
-                0x0000011c        0x2 src/modules/menu.o
-                0x0000011c                draw_main_page
+                0x000000ca       0x26 src/modules/emv.o
+                0x000000ca                emv_ports_init
+ .text.init_IO  0x000000f0       0x2e src/modules/io.o
+                0x000000f0                init_IO
+ .text.DrawScreen
+                0x0000011e       0x74 src/modules/menu.o
+                0x0000011e                DrawScreen
+ .text.FindState
+                0x00000192       0x58 src/modules/menu.o
+                0x00000192                FindState
+ .text.State_Update
+                0x000001ea      0x6c4 src/modules/menu.o
+                0x000001ea                State_Update
+ .text.Menu_Init
+                0x000008ae       0x14 src/modules/menu.o
+                0x000008ae                Menu_Init
+ .text.Menu_Poll
+                0x000008c2      0x11c src/modules/menu.o
+                0x000008c2                Menu_Poll
  .text.Timer0_Init
-                0x0000011e       0x44 src/modules/timer0.o
-                0x0000011e                Timer0_Init
+                0x000009de       0x44 src/modules/timer0.o
+                0x000009de                Timer0_Init
  .text.__vector_15
-                0x00000162       0xd2 src/modules/timer0.o
-                0x00000162                __vector_15
+                0x00000a22       0xd2 src/modules/timer0.o
+                0x00000a22                __vector_15
  .text.Timer0_AllocateCountdownTimer
-                0x00000234       0x3c src/modules/timer0.o
-                0x00000234                Timer0_AllocateCountdownTimer
+                0x00000af4       0x3c src/modules/timer0.o
+                0x00000af4                Timer0_AllocateCountdownTimer
  .text.buttons_init
-                0x00000270       0x24 src/modules/buttons.o
-                0x00000270                buttons_init
+                0x00000b30       0x24 src/modules/buttons.o
+                0x00000b30                buttons_init
  .text.button_interrupt
-                0x00000294       0x5a src/modules/buttons.o
-                0x00000294                button_interrupt
+                0x00000b54       0x5a src/modules/buttons.o
+                0x00000b54                button_interrupt
  .text.__vector_2
-                0x000002ee       0x52 src/modules/buttons.o
-                0x000002ee                __vector_2
+                0x00000bae       0x52 src/modules/buttons.o
+                0x00000bae                __vector_2
+ .text.getkey   0x00000c00       0x1a src/modules/buttons.o
+                0x00000c00                getkey
  .text.lcd12864_send_data
-                0x00000340       0x1e src/modules/lcd12864.o
-                0x00000340                lcd12864_send_data
+                0x00000c1a       0x1e src/modules/lcd12864.o
+                0x00000c1a                lcd12864_send_data
  .text.lcd12864_wait_busy
-                0x0000035e       0x10 src/modules/lcd12864.o
-                0x0000035e                lcd12864_wait_busy
+                0x00000c38       0x10 src/modules/lcd12864.o
+                0x00000c38                lcd12864_wait_busy
  .text.lcd12864_send_cmd
-                0x0000036e       0x20 src/modules/lcd12864.o
-                0x0000036e                lcd12864_send_cmd
+                0x00000c48       0x20 src/modules/lcd12864.o
+                0x00000c48                lcd12864_send_cmd
  .text.lcd12864_init
-                0x0000038e       0x2a src/modules/lcd12864.o
-                0x0000038e                lcd12864_init
- .text.main     0x000003b8        0xe src/main.o
-                0x000003b8                main
-                0x000003c6                . = ALIGN (0x2)
+                0x00000c68       0x2a src/modules/lcd12864.o
+                0x00000c68                lcd12864_init
+ .text.lcd12864_clear
+                0x00000c92        0x8 src/modules/lcd12864.o
+                0x00000c92                lcd12864_clear
+ .text.lcd12864_write_char
+                0x00000c9a       0x20 src/modules/lcd12864.o
+                0x00000c9a                lcd12864_write_char
+ .text.lcd12864_set_pos
+                0x00000cba       0x4e src/modules/lcd12864.o
+                0x00000cba                lcd12864_set_pos
+ .text.lcd12864_write_str
+                0x00000d08       0x28 src/modules/lcd12864.o
+                0x00000d08                lcd12864_write_str
+ .text.main     0x00000d30       0x10 src/main.o
+                0x00000d30                main
+                0x00000d40                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000003c6        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
-                0x000003c6                _exit
-                0x000003c6                exit
+ .fini9         0x00000d40        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+                0x00000d40                _exit
+                0x00000d40                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -1461,49 +1456,63 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000003c6        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+ .fini0         0x00000d40        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x000003ca                _etext = .
+                0x00000d44                _etext = .
 
-.data           0x00800100        0x2 load address 0x000003ca
+.data           0x00800100      0x338 load address 0x00000d44
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
- .data.KEY      0x00800100        0x1 src/modules/buttons.o
-                0x00800100                KEY
+ .data.State_List
+                0x00800100      0x198 src/modules/menu.o
+                0x00800100                State_List
+ .data.Display_Strings
+                0x00800298       0x3a src/modules/menu.o
+                0x00800298                Display_Strings
+ .data.PD_Mode  0x008002d2        0x1 src/modules/menu.o
+                0x008002d2                PD_Mode
+ .data.KEY      0x008002d3        0x1 src/modules/buttons.o
+                0x008002d3                KEY
  *(.rodata)
  *(.rodata*)
+ .rodata.str1.1
+                0x008002d4      0x164 src/modules/menu.o
  *(.gnu.linkonce.d*)
-                0x00800102                . = ALIGN (0x2)
- *fill*         0x00800101        0x1 
-                0x00800102                _edata = .
-                0x00800102                PROVIDE (__data_end, .)
+                0x00800438                . = ALIGN (0x2)
+                0x00800438                _edata = .
+                0x00800438                PROVIDE (__data_end, .)
 
-.bss            0x00800102       0x3c
-                0x00800102                PROVIDE (__bss_start, .)
+.bss            0x00800438       0x47
+                0x00800438                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.SYS_State
+                0x00800438        0x2 src/modules/menu.o
+                0x00800438                SYS_State
  .bss.tmp_counter.1956
-                0x00800102        0x2 src/modules/timer0.o
+                0x0080043a        0x2 src/modules/timer0.o
  .bss.KEY_VALID
-                0x00800104        0x1 src/modules/buttons.o
-                0x00800104                KEY_VALID
+                0x0080043c        0x1 src/modules/buttons.o
+                0x0080043c                KEY_VALID
  *(COMMON)
- COMMON         0x00800105       0x38 src/modules/timer0.o
-                0x00800105                CountDownTimers
-                0x0080010d                EventList
- COMMON         0x0080013d        0x1 src/modules/buttons.o
-                0x0080013d                CountdownTimerHandler
-                0x0080013e                PROVIDE (__bss_end, .)
-                0x000003ca                __data_load_start = LOADADDR (.data)
-                0x000003cc                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080043d        0x9 src/modules/menu.o
+                0x0080043d                SYS_Screen_Buffer
+ COMMON         0x00800446       0x38 src/modules/timer0.o
+                0x00800446                CountDownTimers
+                0x0080044e                EventList
+ COMMON         0x0080047e        0x1 src/modules/buttons.o
+                0x0080047e                CountdownTimerHandler
+                0x0080047f                PROVIDE (__bss_end, .)
+                0x00000d44                __data_load_start = LOADADDR (.data)
+                0x0000107c                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080013e        0x0
-                0x0080013e                PROVIDE (__noinit_start, .)
+.noinit         0x0080047f        0x0
+                0x0080047f                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0080013e                PROVIDE (__noinit_end, .)
-                0x0080013e                _end = .
-                0x0080013e                PROVIDE (__heap_start, .)
+                0x0080047f                PROVIDE (__noinit_end, .)
+                0x0080047f                _end = .
+                0x0080047f                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -1544,8 +1553,9 @@ END GROUP
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 src/modules/emv.o
+ .comment       0x00000000       0x30 src/modules/actions.o
                                  0x31 (size before relaxing)
+ .comment       0x00000000       0x31 src/modules/emv.o
  .comment       0x00000000       0x31 src/modules/io.o
  .comment       0x00000000       0x31 src/modules/menu.o
  .comment       0x00000000       0x31 src/modules/timer0.o
@@ -1568,90 +1578,99 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x1c8
+.debug_aranges  0x00000000      0x200
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x60 src/modules/emv.o
+                0x00000000       0x20 src/modules/actions.o
  .debug_aranges
-                0x00000060       0x30 src/modules/io.o
+                0x00000020       0x60 src/modules/emv.o
  .debug_aranges
-                0x00000090       0x28 src/modules/menu.o
+                0x00000080       0x30 src/modules/io.o
  .debug_aranges
-                0x000000b8       0x50 src/modules/timer0.o
+                0x000000b0       0x40 src/modules/menu.o
  .debug_aranges
-                0x00000108       0x38 src/modules/buttons.o
+                0x000000f0       0x50 src/modules/timer0.o
  .debug_aranges
-                0x00000140       0x68 src/modules/lcd12864.o
+                0x00000140       0x38 src/modules/buttons.o
  .debug_aranges
-                0x000001a8       0x20 src/main.o
+                0x00000178       0x68 src/modules/lcd12864.o
+ .debug_aranges
+                0x000001e0       0x20 src/main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x124a
+.debug_info     0x00000000     0x1571
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x3a1 src/modules/emv.o
- .debug_info    0x000003a1       0xdc src/modules/io.o
- .debug_info    0x0000047d      0x26d src/modules/menu.o
- .debug_info    0x000006ea      0x298 src/modules/timer0.o
- .debug_info    0x00000982      0x17b src/modules/buttons.o
- .debug_info    0x00000afd      0x648 src/modules/lcd12864.o
- .debug_info    0x00001145      0x105 src/main.o
+ .debug_info    0x00000000       0x44 src/modules/actions.o
+ .debug_info    0x00000044      0x3a1 src/modules/emv.o
+ .debug_info    0x000003e5       0xdc src/modules/io.o
+ .debug_info    0x000004c1      0x53d src/modules/menu.o
+ .debug_info    0x000009fe      0x298 src/modules/timer0.o
+ .debug_info    0x00000c96      0x17b src/modules/buttons.o
+ .debug_info    0x00000e11      0x648 src/modules/lcd12864.o
+ .debug_info    0x00001459      0x118 src/main.o
 
-.debug_abbrev   0x00000000      0x761
+.debug_abbrev   0x00000000      0x885
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x17e src/modules/emv.o
- .debug_abbrev  0x0000017e       0xa4 src/modules/io.o
- .debug_abbrev  0x00000222       0xa5 src/modules/menu.o
- .debug_abbrev  0x000002c7      0x135 src/modules/timer0.o
- .debug_abbrev  0x000003fc       0xea src/modules/buttons.o
- .debug_abbrev  0x000004e6      0x214 src/modules/lcd12864.o
- .debug_abbrev  0x000006fa       0x67 src/main.o
+ .debug_abbrev  0x00000000       0x31 src/modules/actions.o
+ .debug_abbrev  0x00000031      0x17e src/modules/emv.o
+ .debug_abbrev  0x000001af       0xa4 src/modules/io.o
+ .debug_abbrev  0x00000253      0x198 src/modules/menu.o
+ .debug_abbrev  0x000003eb      0x135 src/modules/timer0.o
+ .debug_abbrev  0x00000520       0xea src/modules/buttons.o
+ .debug_abbrev  0x0000060a      0x214 src/modules/lcd12864.o
+ .debug_abbrev  0x0000081e       0x67 src/main.o
 
-.debug_line     0x00000000     0x2ac4
+.debug_line     0x00000000     0x2fbe
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x70d src/modules/emv.o
- .debug_line    0x0000070d      0x521 src/modules/io.o
- .debug_line    0x00000c2e      0x506 src/modules/menu.o
- .debug_line    0x00001134      0x6ad src/modules/timer0.o
- .debug_line    0x000017e1      0x5f2 src/modules/buttons.o
- .debug_line    0x00001dd3      0x748 src/modules/lcd12864.o
- .debug_line    0x0000251b      0x5a9 src/main.o
+ .debug_line    0x00000000       0x53 src/modules/actions.o
+ .debug_line    0x00000053      0x70d src/modules/emv.o
+ .debug_line    0x00000760      0x521 src/modules/io.o
+ .debug_line    0x00000c81      0x99d src/modules/menu.o
+ .debug_line    0x0000161e      0x6ad src/modules/timer0.o
+ .debug_line    0x00001ccb      0x5f8 src/modules/buttons.o
+ .debug_line    0x000022c3      0x748 src/modules/lcd12864.o
+ .debug_line    0x00002a0b      0x5b3 src/main.o
 
-.debug_frame    0x00000000      0x3ec
+.debug_frame    0x00000000      0x440
  *(.debug_frame)
- .debug_frame   0x00000000       0xa4 src/modules/emv.o
- .debug_frame   0x000000a4       0x44 src/modules/io.o
- .debug_frame   0x000000e8       0x34 src/modules/menu.o
- .debug_frame   0x0000011c       0xec src/modules/timer0.o
- .debug_frame   0x00000208       0x9c src/modules/buttons.o
- .debug_frame   0x000002a4      0x124 src/modules/lcd12864.o
- .debug_frame   0x000003c8       0x24 src/main.o
+ .debug_frame   0x00000000       0x24 src/modules/actions.o
+ .debug_frame   0x00000024       0xa4 src/modules/emv.o
+ .debug_frame   0x000000c8       0x44 src/modules/io.o
+ .debug_frame   0x0000010c       0x64 src/modules/menu.o
+ .debug_frame   0x00000170       0xec src/modules/timer0.o
+ .debug_frame   0x0000025c       0x9c src/modules/buttons.o
+ .debug_frame   0x000002f8      0x124 src/modules/lcd12864.o
+ .debug_frame   0x0000041c       0x24 src/main.o
 
-.debug_str      0x00000000    0x10a70
+.debug_str      0x00000000    0x10c5e
  *(.debug_str)
- .debug_str     0x00000000     0xfde6 src/modules/emv.o
+ .debug_str     0x00000000     0x2ab8 src/modules/actions.o
+                               0x2abe (size before relaxing)
+ .debug_str     0x00002ab8     0xd363 src/modules/emv.o
                                0xff97 (size before relaxing)
- .debug_str     0x0000fde6       0x40 src/modules/io.o
+ .debug_str     0x0000fe1b       0x40 src/modules/io.o
                                0xf979 (size before relaxing)
- .debug_str     0x0000fe26      0x6ce src/modules/menu.o
-                              0x1007e (size before relaxing)
- .debug_str     0x000104f4      0x13c src/modules/timer0.o
+ .debug_str     0x0000fe5b      0xa13 src/modules/menu.o
+                              0x103b7 (size before relaxing)
+ .debug_str     0x0001086e      0x128 src/modules/timer0.o
                                0xfac7 (size before relaxing)
- .debug_str     0x00010630      0x1ad src/modules/buttons.o
-                               0xfd84 (size before relaxing)
- .debug_str     0x000107dd      0x280 src/modules/lcd12864.o
+ .debug_str     0x00010996       0x7c src/modules/buttons.o
+                               0xfd87 (size before relaxing)
+ .debug_str     0x00010a12      0x239 src/modules/lcd12864.o
                                0xfe35 (size before relaxing)
- .debug_str     0x00010a5d       0x13 src/main.o
-                              0x104ec (size before relaxing)
+ .debug_str     0x00010c4b       0x13 src/main.o
+                              0x10682 (size before relaxing)
 
-.debug_loc      0x00000000      0xaa5
+.debug_loc      0x00000000      0xb6d
  *(.debug_loc)
  .debug_loc     0x00000000       0xc1 src/modules/emv.o
  .debug_loc     0x000000c1       0x3a src/modules/io.o
- .debug_loc     0x000000fb      0x3e4 src/modules/timer0.o
- .debug_loc     0x000004df      0x125 src/modules/buttons.o
- .debug_loc     0x00000604      0x4a1 src/modules/lcd12864.o
+ .debug_loc     0x000000fb       0xc8 src/modules/menu.o
+ .debug_loc     0x000001c3      0x3e4 src/modules/timer0.o
+ .debug_loc     0x000005a7      0x125 src/modules/buttons.o
+ .debug_loc     0x000006cc      0x4a1 src/modules/lcd12864.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1671,32 +1690,34 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x158
+.debug_ranges   0x00000000      0x180
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x50 src/modules/emv.o
- .debug_ranges  0x00000050       0x20 src/modules/io.o
- .debug_ranges  0x00000070       0x18 src/modules/menu.o
- .debug_ranges  0x00000088       0x40 src/modules/timer0.o
- .debug_ranges  0x000000c8       0x28 src/modules/buttons.o
- .debug_ranges  0x000000f0       0x58 src/modules/lcd12864.o
- .debug_ranges  0x00000148       0x10 src/main.o
+ .debug_ranges  0x00000000       0x10 src/modules/actions.o
+ .debug_ranges  0x00000010       0x50 src/modules/emv.o
+ .debug_ranges  0x00000060       0x20 src/modules/io.o
+ .debug_ranges  0x00000080       0x30 src/modules/menu.o
+ .debug_ranges  0x000000b0       0x40 src/modules/timer0.o
+ .debug_ranges  0x000000f0       0x28 src/modules/buttons.o
+ .debug_ranges  0x00000118       0x58 src/modules/lcd12864.o
+ .debug_ranges  0x00000170       0x10 src/main.o
 
-.debug_macro    0x00000000      0xef9
+.debug_macro    0x00000000      0xf77
  *(.debug_macro)
- .debug_macro   0x00000000      0x1d2 src/modules/emv.o
- .debug_macro   0x000001d2       0x46 src/modules/emv.o
- .debug_macro   0x00000218       0x16 src/modules/emv.o
- .debug_macro   0x0000022e      0x1ad src/modules/io.o
- .debug_macro   0x000003db       0x16 src/modules/io.o
- .debug_macro   0x000003f1      0x1db src/modules/menu.o
- .debug_macro   0x000005cc       0xa0 src/modules/menu.o
- .debug_macro   0x0000066c       0x76 src/modules/menu.o
- .debug_macro   0x000006e2      0x1ad src/modules/timer0.o
- .debug_macro   0x0000088f      0x1bf src/modules/buttons.o
- .debug_macro   0x00000a4e       0x64 src/modules/buttons.o
- .debug_macro   0x00000ab2      0x1cb src/modules/lcd12864.o
- .debug_macro   0x00000c7d       0x70 src/modules/lcd12864.o
- .debug_macro   0x00000ced       0x16 src/modules/lcd12864.o
- .debug_macro   0x00000d03      0x1f6 src/main.o
+ .debug_macro   0x00000000       0x1b src/modules/actions.o
+ .debug_macro   0x0000001b      0x1d2 src/modules/emv.o
+ .debug_macro   0x000001ed       0x46 src/modules/emv.o
+ .debug_macro   0x00000233       0x16 src/modules/emv.o
+ .debug_macro   0x00000249      0x1ad src/modules/io.o
+ .debug_macro   0x000003f6       0x16 src/modules/io.o
+ .debug_macro   0x0000040c      0x1e4 src/modules/menu.o
+ .debug_macro   0x000005f0       0xfa src/modules/menu.o
+ .debug_macro   0x000006ea       0x76 src/modules/menu.o
+ .debug_macro   0x00000760       0x64 src/modules/menu.o
+ .debug_macro   0x000007c4      0x1ad src/modules/timer0.o
+ .debug_macro   0x00000971      0x1bf src/modules/buttons.o
+ .debug_macro   0x00000b30      0x1cb src/modules/lcd12864.o
+ .debug_macro   0x00000cfb       0x70 src/modules/lcd12864.o
+ .debug_macro   0x00000d6b       0x16 src/modules/lcd12864.o
+ .debug_macro   0x00000d81      0x1f6 src/main.o
 OUTPUT(AVR.elf elf32-avr)
 LOAD linker stubs

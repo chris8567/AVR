@@ -48,8 +48,8 @@ void button_interrupt(){
 	else if(key_byte & _BV(1)) key = BUTTON_ALMRST;
 	else if(key_byte & _BV(2)) key=BUTTON_ENTER;
 	else if(key_byte & _BV(3)) key=BUTTON_MENU;
-	else if(key_byte & _BV(4)) key=BUTTON_ADD;
-	else if(key_byte & _BV(5)) key=BUTTON_SUB;
+	else if(key_byte & _BV(4)) key=BUTTON_RIGHT;
+	else if(key_byte & _BV(5)) key=BUTTON_LEFT;
 	else if(key_byte & _BV(6)) key=BUTTON_UP;
 	else if(key_byte & _BV(7)) key=BUTTON_DOWN;
 	else key=KEY_NULL;
@@ -74,6 +74,7 @@ uint8_t getkey(void){
 		
 	}
 	else k=KEY_NULL;
+	sei();
 	
 	return k;
 	

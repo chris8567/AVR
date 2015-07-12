@@ -11,75 +11,316 @@
 #include "modules/timer0.h"
 #include "modules/io.h"
 #include "modules/actions.h"
+#include "modules/buttons.h"
 
-uint16_t Current_State = MENU_STATE_MAIN; 
-Type_Screen_Buffer Screen_Buffer;
+Type_State *SYS_State=NULL;
+Type_Screen_Buffer SYS_Screen_Buffer;
+TIMER_CALLBACK_FUNC Current_TimerFunc = NULL;
+uint8_t PD_Mode = 1;
 
 char *Display_Strings[DISPLAY_STR_LENGTH] = {\
-	"     ",\
+	"            ",\
 	"当前压差:",\
 	"时间:",\
 	"状态  菜单  报警",\
-	"返回",\
-	"系统状态和设置",\
-	"工作模式选择",\
-	"喷吹设置",\
-	"报警设置",\
-	"退出菜单"\
-	"系统运行时间",\
-	"喷吹次数",\
-	"关于本机",\
-	"设置锁定",\
-	"单位设置",\
-	"扩展板",\
-	"压差模式一",\
-	"压差模式二",\
-	"压差模式三",\
-	"时序控制模式",\
-	"压差模式五",\
-	"正在启用",\
-	"关闭中",\
-	"压差上限",\
-	"压差下限",\
-	"压差下限百分比",\
-	"最小喷吹频率",\
-	"喷吹时间间隔"\
+	"4返回",\
+	">系统状态和设置",\
+	">工作模式选择",\
+	">喷吹设置",\
+	">报警设置",\
+	">退出菜单"\
+	"10系统运行时间",\
+	"11喷吹次数",\
+	"12关于本机",\
+	"13设置锁定",\
+	"14单位设置",\
+	"15扩展板",\
+	"16压差模式一",\
+	"17压差模式二",\
+	"18压差模式三",\
+	"19时序控制模式",\
+	"20编程喷吹模式",\
+	"21正在启用",\
+	"22关闭中",\
+	"23压差上限",\
+	"24压差下限",\
+	"25压差下限百分比",\
+	"26最小喷吹频率",\
+	"27喷吹时间间隔"\
+	"28返回   确认  帮助"\
 };
 
 
-Type_StateList State_List[STATE_LIST_LENGTH]={\
+Type_State State_List[STATE_LIST_LENGTH]={\
 	{MENU_STATE_MAIN,			MENU_STATE_MAIN,		MENU_STATE_MAIN,				MENU_STATE_MAIN,			MENU_STATE_MAIN,			MENU_STATE_ITEMLIST_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			Act_Update_Main},\
-	{MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P2,			MENU_STATE_ITEMLIST_P1,		MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P1,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_ITEMLIST_P2,	MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P3,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_ITEMLIST_P3,	MENU_STATE_ITEMLIST_P2,	MENU_STATE_ITEMLIST_P4,			MENU_STATE_ITEMLIST_P3,		MENU_STATE_ITEMLIST_P3,		MENU_STATE_ITEMLIST_P3,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_ITEMLIST_P4,	MENU_STATE_ITEMLIST_P3,	MENU_STATE_ITEMLIST_P5,			MENU_STATE_ITEMLIST_P4,		MENU_STATE_ITEMLIST_P4,		MENU_STATE_ITEMLIST_P4,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_ITEMLIST_P5,	MENU_STATE_ITEMLIST_P4,	MENU_STATE_ITEMLIST_P5,			MENU_STATE_ITEMLIST_P5,		MENU_STATE_ITEMLIST_P5,		MENU_STATE_MAIN,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_SYS_P1,			MENU_STATE_SYS_P1,		MENU_STATE_SYS_P2,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P1,			MENU_STATE_SYS_P1,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_SYS_P2,			MENU_STATE_SYS_P1,		MENU_STATE_SYS_P3,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P2,			MENU_STATE_SYS_P2,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_SYS_P3			MENU_STATE_SYS_P2,		MENU_STATE_SYS_P4,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P3,			MENU_STATE_SYS_P3,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_SYS_P4,			MENU_STATE_SYS_P3,		MENU_STATE_SYS_P5,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P4,			MENU_STATE_SYS_P4,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_SYS_P5,			MENU_STATE_SYS_P4,		MENU_STATE_SYS_P5,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P5,			MENU_STATE_SYS_P5,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_MODESEL_P1,		MENU_STATE_MODESEL_P1,	MENU_STATE_MODESEL_P2,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_MODESEL_P2,		MENU_STATE_MODESEL_P1,	MENU_STATE_MODESEL_P3			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P2,		MENU_STATE_PD_MODE2_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_MODESEL_P3,		MENU_STATE_MODESEL_P2,	MENU_STATE_MODESEL_P4,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P3,		MENU_STATE_PD_MODE3_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_MODESEL_P4,		MENU_STATE_MODESEL_P3,	MENU_STATE_MODESEL_P4,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P4,		MENU_STATE_MODESEL_P4,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	}\
-	{MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P2,			MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P1,		MENU_STATE_PD_MODE1_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			}
+	{MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P2,			MENU_STATE_ITEMLIST_P1,		MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P1,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_ITEMLIST_P2,	MENU_STATE_ITEMLIST_P1,	MENU_STATE_ITEMLIST_P3,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_ITEMLIST_P3,	MENU_STATE_ITEMLIST_P2,	MENU_STATE_ITEMLIST_P4,			MENU_STATE_ITEMLIST_P3,		MENU_STATE_ITEMLIST_P3,		MENU_STATE_ITEMLIST_P3,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_ITEMLIST_P4,	MENU_STATE_ITEMLIST_P3,	MENU_STATE_ITEMLIST_P5,			MENU_STATE_ITEMLIST_P4,		MENU_STATE_ITEMLIST_P4,		MENU_STATE_ITEMLIST_P4,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_ITEMLIST_P5,	MENU_STATE_ITEMLIST_P4,	MENU_STATE_ITEMLIST_P5,			MENU_STATE_ITEMLIST_P5,		MENU_STATE_ITEMLIST_P5,		MENU_STATE_MAIN,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_SYS_P1,			MENU_STATE_SYS_P1,		MENU_STATE_SYS_P2,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P1,			MENU_STATE_SYS_P1,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_SYS_P2,			MENU_STATE_SYS_P1,		MENU_STATE_SYS_P3,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P2,			MENU_STATE_SYS_P2,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_SYS_P3,			MENU_STATE_SYS_P2,		MENU_STATE_SYS_P4,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P3,			MENU_STATE_SYS_P3,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_SYS_P4,			MENU_STATE_SYS_P3,		MENU_STATE_SYS_P5,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P4,			MENU_STATE_SYS_P4,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_SYS_P5,			MENU_STATE_SYS_P4,		MENU_STATE_SYS_P5,				MENU_STATE_ITEMLIST_P1,		MENU_STATE_SYS_P5,			MENU_STATE_SYS_P5,			NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_MODESEL_P1,		MENU_STATE_MODESEL_P1,	MENU_STATE_MODESEL_P2,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_MODESEL_P2,		MENU_STATE_MODESEL_P1,	MENU_STATE_MODESEL_P3,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P2,		MENU_STATE_PD_MODE2_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_MODESEL_P3,		MENU_STATE_MODESEL_P2,	MENU_STATE_MODESEL_P4,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P3,		MENU_STATE_PD_MODE3_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_MODESEL_P4,		MENU_STATE_MODESEL_P3,	MENU_STATE_MODESEL_P4,			MENU_STATE_ITEMLIST_P2,		MENU_STATE_MODESEL_P4,		MENU_STATE_MODESEL_P4,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL	},\
+	{MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P1,	MENU_STATE_PD_MODE1_P2,			MENU_STATE_MODESEL_P1,		MENU_STATE_PD_MODE1_P1,		MENU_STATE_PD_MODE1_P1,		NULL,			NULL,			NULL,			NULL,			NULL,			NULL    }\
 	
 	};
 //	CurrentState				UP_NEXT					DOWN_NEXT						LEFT_NEXT					RIGHT_NEXT					ENT_NEXT					UP_ACTION		DOWN_ACTION			LEFT_ACTION		RIGHT_ACTION		ENT_ACTION		TIMER_ACTI
-	
+	  
+
+
+	void DrawScreen(void){
+		lcd12864_clear();
+		lcd12864_set_pos(1,1);
+		lcd12864_write_str(SYS_Screen_Buffer.line[0]);
+		lcd12864_set_pos(1,2);
+		lcd12864_write_str(SYS_Screen_Buffer.line[1]);
+		lcd12864_set_pos(1,3);
+		lcd12864_write_str(SYS_Screen_Buffer.line[2]);
+		lcd12864_set_pos(1,4);
+		lcd12864_write_str(SYS_Screen_Buffer.line[3]);
+		switch(SYS_Screen_Buffer.white_index){
+			case 1:
+				lcd12864_set_pos(1,1); 
+				lcd12864_write_char('*');
+				break;
+			case 2:
+				lcd12864_set_pos(1,2);
+				lcd12864_write_char('*');
+				break;
+			case 3:
+				lcd12864_set_pos(1,3);
+				lcd12864_write_char('*');
+				break;
+			default:
+				break;
+			
+		}
 		
-
-uint8_t work_mode=1;
-bool alarm_flag = true;
-uint16_t menu_status =0;
-void draw_main_page(void){
-
-	;
-}
-
-void refresh_page(void){
-
+	}
 	
+Type_State *FindState(uint16_t statename){
+		for(uint8_t i=0; i<STATE_LIST_LENGTH;i++){
+			if(State_List[i].Current_State == statename)
+			return &State_List[i];
+		}
+		return NULL;
 		
-}
+	}
+	
+	void Menu_Init(void){
+		SYS_State = FindState(MENU_STATE_MAIN);
+		State_Update();
+		DrawScreen();
+	}
+	
+	void State_Update(void){
+		switch(SYS_State->Current_State){
+			case MENU_STATE_MAIN:
+				SYS_Screen_Buffer.line[0] = Display_Strings[0];
+				SYS_Screen_Buffer.line[1] = Display_Strings[1];
+				SYS_Screen_Buffer.line[2] = Display_Strings[2];
+				SYS_Screen_Buffer.line[3] = Display_Strings[3];
+				SYS_Screen_Buffer.white_index = 0;
+				break;
+			case MENU_STATE_ITEMLIST_P1:
+				SYS_Screen_Buffer.line[0] = Display_Strings[5]; 
+				SYS_Screen_Buffer.line[1] = Display_Strings[6];
+				SYS_Screen_Buffer.line[2] = Display_Strings[7];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 1;
+				break;
+			case MENU_STATE_ITEMLIST_P2:
+				SYS_Screen_Buffer.line[0] = Display_Strings[5];
+				SYS_Screen_Buffer.line[1] = Display_Strings[6];
+				SYS_Screen_Buffer.line[2] = Display_Strings[7];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 2;
+				break;
+			case MENU_STATE_ITEMLIST_P3:
+				SYS_Screen_Buffer.line[0] = Display_Strings[5];
+				SYS_Screen_Buffer.line[1] = Display_Strings[6];
+				SYS_Screen_Buffer.line[2] = Display_Strings[7];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 3;
+				break;
+			case MENU_STATE_ITEMLIST_P4:
+				SYS_Screen_Buffer.line[0] = Display_Strings[8];
+				SYS_Screen_Buffer.line[1] = Display_Strings[9];
+				SYS_Screen_Buffer.line[2] = Display_Strings[0];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 1;
+				break;
+			case MENU_STATE_ITEMLIST_P5:
+				SYS_Screen_Buffer.line[0] = Display_Strings[8];
+				SYS_Screen_Buffer.line[1] = Display_Strings[9];
+				SYS_Screen_Buffer.line[2] = Display_Strings[0];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 2;
+				break;
+			case MENU_STATE_SYS_P1:
+				SYS_Screen_Buffer.line[0] = Display_Strings[10];
+				SYS_Screen_Buffer.line[1] = Display_Strings[11];
+				SYS_Screen_Buffer.line[2] = Display_Strings[12];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 1;
+				break;
+			case MENU_STATE_SYS_P2:
+				SYS_Screen_Buffer.line[0] = Display_Strings[10];
+				SYS_Screen_Buffer.line[1] = Display_Strings[11];
+				SYS_Screen_Buffer.line[2] = Display_Strings[12];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 2;
+				break;
+			case MENU_STATE_SYS_P3:
+				SYS_Screen_Buffer.line[0] = Display_Strings[10];
+				SYS_Screen_Buffer.line[1] = Display_Strings[11];
+				SYS_Screen_Buffer.line[2] = Display_Strings[12];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 3;
+				break;
+			case MENU_STATE_SYS_P4:
+				SYS_Screen_Buffer.line[0] = Display_Strings[13];
+				SYS_Screen_Buffer.line[1] = Display_Strings[14];
+				SYS_Screen_Buffer.line[2] = Display_Strings[15];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 1;
+				break;
+			case MENU_STATE_SYS_P5:
+				SYS_Screen_Buffer.line[0] = Display_Strings[13];
+				SYS_Screen_Buffer.line[1] = Display_Strings[14];
+				SYS_Screen_Buffer.line[2] = Display_Strings[15];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 2;
+				break;
+			case MENU_STATE_SYS_P6:
+				SYS_Screen_Buffer.line[0] = Display_Strings[13];
+				SYS_Screen_Buffer.line[1] = Display_Strings[14];
+				SYS_Screen_Buffer.line[2] = Display_Strings[15];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 3;
+				break;
+			case MENU_STATE_MODESEL_P1:
+				SYS_Screen_Buffer.line[0] = Display_Strings[16];
+				SYS_Screen_Buffer.line[1] = Display_Strings[17];
+				SYS_Screen_Buffer.line[2] = Display_Strings[18];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 1; 
+				break;
+			case MENU_STATE_MODESEL_P2:
+				SYS_Screen_Buffer.line[0] = Display_Strings[16];
+				SYS_Screen_Buffer.line[1] = Display_Strings[17];
+				SYS_Screen_Buffer.line[2] = Display_Strings[18];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 2;
+				break;
+			case MENU_STATE_MODESEL_P3:
+				SYS_Screen_Buffer.line[0] = Display_Strings[16];
+				SYS_Screen_Buffer.line[1] = Display_Strings[17];
+				SYS_Screen_Buffer.line[2] = Display_Strings[18];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 3;
+				break;
+			case MENU_STATE_MODESEL_P4:
+				SYS_Screen_Buffer.line[0] = Display_Strings[19];
+				SYS_Screen_Buffer.line[1] = Display_Strings[20];
+				SYS_Screen_Buffer.line[2] = Display_Strings[0];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 1;
+				break;
+			case MENU_STATE_MODESEL_P5:
+				SYS_Screen_Buffer.line[0] = Display_Strings[19];
+				SYS_Screen_Buffer.line[1] = Display_Strings[20];
+				SYS_Screen_Buffer.line[2] = Display_Strings[0];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index = 2;
+				break;
+			case MENU_STATE_PD_MODE1_P1:
+				if(PD_Mode == 1) 
+					SYS_Screen_Buffer.line[0] = Display_Strings[21];
+				else
+					SYS_Screen_Buffer.line[0] = Display_Strings[22];
+				SYS_Screen_Buffer.line[1] = Display_Strings[23];
+				SYS_Screen_Buffer.line[2] = Display_Strings[24];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index=1;
+				break;
+			case MENU_STATE_PD_MODE1_P2:
+				if(PD_Mode == 1)
+				SYS_Screen_Buffer.line[0] = Display_Strings[21];
+				else
+				SYS_Screen_Buffer.line[0] = Display_Strings[22];
+				SYS_Screen_Buffer.line[1] = Display_Strings[23];
+				SYS_Screen_Buffer.line[2] = Display_Strings[24];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index=2;
+				break;
+			case MENU_STATE_PD_MODE1_P3:
+				if(PD_Mode == 1)
+				SYS_Screen_Buffer.line[0] = Display_Strings[21];
+				else
+				SYS_Screen_Buffer.line[0] = Display_Strings[22];
+				SYS_Screen_Buffer.line[1] = Display_Strings[23];
+				SYS_Screen_Buffer.line[2] = Display_Strings[24];
+				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.white_index=1;
+				break;
+			default:
+				break;
+			
+		}
+			
+	}
+	
+	void Menu_Poll(void){
+		uint8_t key = getkey();
+		switch(key){
+			case BUTTON_RIGHT:
+				if(SYS_State->Right_Action!=NULL)
+					SYS_State->Right_Action();
+				SYS_State = FindState(SYS_State->Right_Next_State);
+				lcd12864_set_pos(1,1);
+				lcd12864_write_char('>');
+				State_Update();
+				DrawScreen();
+				break;
+			case BUTTON_LEFT:
+				if(SYS_State->Left_Action!= NULL)
+					SYS_State->Left_Action();
+				SYS_State = FindState(SYS_State->Left_Next_State);
+				State_Update();
+				DrawScreen();
+				break;
+			case BUTTON_UP:
+				if(SYS_State->Up_Action!= NULL)
+				SYS_State->Up_Action();
+				SYS_State = FindState(SYS_State->Up_Next_State);
+				State_Update();
+				DrawScreen();
+				break;
+			case BUTTON_DOWN:
+				if(SYS_State->Down_Action!= NULL)
+				SYS_State->Down_Action();
+				SYS_State = FindState(SYS_State->Down_Next_State);
+				State_Update();
+				DrawScreen();
+				break;
+			case BUTTON_ENTER:
+				if(SYS_State->Ent_Action!= NULL)
+				SYS_State->Ent_Action();
+				SYS_State = FindState(SYS_State->Ent_Next_State);
+				State_Update();
+				DrawScreen();
+				break;
+			default:
+
+				break;
+		}
+
+		
+	}

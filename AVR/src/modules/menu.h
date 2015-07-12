@@ -12,13 +12,13 @@
 #define BLOWING_SYM 0x0F
 #define ALARM_SYM 0x21
 
-#define DISPLAY_STR_LENGTH	28
-#define STATE_LIST_LENGTH	2
+#define DISPLAY_STR_LENGTH	29
+#define STATE_LIST_LENGTH	17
 
-extern uint16_t Current_State; 
+
 extern char *Display_Strings[DISPLAY_STR_LENGTH];
 
-typedef struct StateList{
+typedef struct State{
 	uint16_t	Current_State;
 	uint16_t	Up_Next_State;
 	uint16_t	Down_Next_State;
@@ -31,10 +31,12 @@ typedef struct StateList{
 	void		(*Right_Action)(void);
 	void		(*Timer_Action)(void);
 	void		(*Ent_Action)(void);
-	}Type_StateList;
+	}Type_State;
+	
+extern Type_State *SYS_State;
 
 typedef struct ScreenContent{
-	char *lines[3];
+	char *line[4];
 	uint8_t white_index;
 	}Type_Screen_Buffer;
 	
@@ -58,11 +60,14 @@ typedef struct ScreenContent{
 #define MENU_STATE_SYS_P3			0x2003
 #define MENU_STATE_SYS_P4			0x2004
 #define MENU_STATE_SYS_P5			0x2005
+#define MENU_STATE_SYS_P6			0x2006
 
 #define MENU_STATE_MODESEL_P1		0x3001
 #define MENU_STATE_MODESEL_P2		0x3002
 #define MENU_STATE_MODESEL_P3		0x3003
 #define MENU_STATE_MODESEL_P4		0x3004
+#define MENU_STATE_MODESEL_P5		0x3005
+
 #define MENU_STATE_PD_MODE1_P1		0x3101
 #define MENU_STATE_PD_MODE1_P2		0x3102
 #define MENU_STATE_PD_MODE1_P3		0x3103
@@ -83,9 +88,12 @@ typedef struct ScreenContent{
 
 
 
+void Menu_Init(void);
+void Menu_Poll(void);
+void DrawScreen(void);
+
+Type_State *FindState(uint16_t statename);
+void State_Update(void); 
 
 
-
-void draw_main_page(void);
-void refresh_page(void);
 #endif /* MENU_H_ */

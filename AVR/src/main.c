@@ -45,15 +45,13 @@
 int main (void)
 {
 
-	
-	
 	/* Insert system clock initialization code here (sysclk_init()). */
 	buttons_init(); 
 	lcd12864_init();
 	init_IO();
 	emv_ports_init();
 	Timer0_Init();
-	draw_main_page();
+	Menu_Init();
 	
 	
 	
@@ -61,7 +59,7 @@ int main (void)
 
 	
 	while(1){
-;
+	Menu_Poll();
 
 	}
 		

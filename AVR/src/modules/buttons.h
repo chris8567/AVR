@@ -16,8 +16,8 @@
  #define KEY_NULL 255
  #define BUTTON_UP 0
  #define BUTTON_DOWN 1
- #define BUTTON_ADD 2
- #define BUTTON_SUB 3
+ #define BUTTON_RIGHT 2
+ #define BUTTON_LEFT 3
  #define BUTTON_ENTER 4
  #define BUTTON_DEM 5
  #define BUTTON_MENU 6
