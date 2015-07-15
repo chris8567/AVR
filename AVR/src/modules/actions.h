@@ -10,6 +10,7 @@
 #define ACTIONS_H_
 
 void Act_Update_Main(void);
+void Act_pressure_setting1_display(void);
 
 
 

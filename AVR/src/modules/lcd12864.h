@@ -51,6 +51,7 @@ uint8_t lcd12864_read_data(void);
 void lcd12864_clear(void);
 void lcd12864_loop(char *str);
 void lcd12864_write_float(float v);
+void lcd12864_write_int(int v);
 
 #endif
  /* LCD12864_H_ */

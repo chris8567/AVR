@@ -25,7 +25,8 @@ void Act_Update_Main(void){
 	static uint16_t days=0, hours=0, m=0,s=0;
 	char *time="00d00h00m";
 	char pdstr[4];
-	itoa((int)ADC_read(PRESSURE),pdstr,10);
+	int pressure_diff = (int)ADC_read(PRESSURE);
+	itoa(pressure_diff,pdstr,10);
 	lcd12864_set_pos(0,1);
 	switch(mode){
 		case 1:
@@ -61,7 +62,7 @@ void Act_Update_Main(void){
 		if(blink_factor)
 			lcd12864_write_char(0x21);
 		else
-			lcd12864_write_char(0x00);
+			lcd12864_write_char(' ');
 	}
 	else{
 		lcd12864_write_char(0x02);
@@ -90,6 +91,23 @@ void Act_Update_Main(void){
 
 	lcd12864_write_str(time);
 	
+	
+	if(pressure_diff > BlowPresureUpperLimit){
+		Alarm_State = 1;
+		Alarm(1);
+	}
+	else if(pressure_diff < BlowPresureLowerLimit){
+		Alarm_State=0;
+		Alarm(0);
+	}
 
 
+}
+
+void Act_pressure_setting1_display(void){
+	lcd12864_set_pos(6,2);
+	lcd12864_write_int(BlowPresureUpperLimit);
+	lcd12864_set_pos(6,3);
+	lcd12864_write_int(BlowPresureLowerLimit);
+	
 }

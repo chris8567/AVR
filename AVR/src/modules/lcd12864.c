@@ -136,4 +136,8 @@ void lcd12864_write_float(float v){
 }
 
 
-
+void lcd12864_write_int(int v){
+	char *str="    ";
+	itoa(v,str,10);
+	lcd12864_write_str(str);
+}

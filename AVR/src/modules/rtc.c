@@ -13,7 +13,7 @@ void ds1302_set_time(struct rtc_time *time, uint8_t field, uint8_t w_byte){
 
 }
 
-void ds1302_comms(struct rtc_time *time, uint8_t field, uint8_t w_byte, uint8_t rw){
+void ds1302_comms(struct rtc_time *time, uint8_t field, uint8_t write_byte, uint8_t rw){
 	uint8_t temp; 
 	if(rw == READ)
 	{
@@ -31,9 +31,9 @@ void ds1302_comms(struct rtc_time *time, uint8_t field, uint8_t w_byte, uint8_t 
 
 		case HOUR:
 			temp = ds1302_read_byte(hour_r);
-			if(temp & 0x80 == 1)
+			if((temp & 0x80) == 1)
 			{
-				if(temp & 0x20 == 1)
+				if((temp & 0x20) == 1)
 					time->hour_format = PM; 
 				else
 					time->hour_format = AM;
@@ -71,34 +71,34 @@ void ds1302_comms(struct rtc_time *time, uint8_t field, uint8_t w_byte, uint8_t 
 	else if(rw == WRITE){
 		switch(field){
 			case SEC:
-				ds1302_write_byte(sec_w, (((write_byte/10)<<4) & 0x70 | (write_byte%10));
+				ds1302_write_byte(sec_w, ((((write_byte/10)<<4) & 0x70) | (write_byte%10)));
 				break;
 			case MIN:
-				ds1302_write_byte(min_w, (((write_byte/10)<<4) & 0x70  | (write_byte%10)));
+				ds1302_write_byte(min_w, ((((write_byte/10)<<4) & 0x70)  | (write_byte%10)));
 				break;
 			case HOUR:
 				if(time->hour_format == AM)
-				ds1302_write_byte(hour_w, (((write_byte/10)<<4) & 0x10  | (write_byte%10)) | 0x80);			
+				ds1302_write_byte(hour_w, ((((write_byte/10)<<4) & 0x10)  | (write_byte%10)) | 0x80);			
 			else if(time->hour_format == PM)
-				ds1302_write_byte(hour_w, (((write_byte/10)<<4) & 0x10  | (write_byte%10)) | 0xA0);
+				ds1302_write_byte(hour_w, ((((write_byte/10)<<4) & 0x10)  | (write_byte%10)) | 0xA0);
 			else if(time->hour_format == H24)
-				ds1302_write_byte(hour_w, (((write_byte/10)<<4) & 0x10  | (write_byte%10)));	
+				ds1302_write_byte(hour_w, ((((write_byte/10)<<4) & 0x10)  | (write_byte%10)));	
 
 				break;
 			case DAY:
-				ds1302_write_byte(day_w, write_byte & 0x03);
+				ds1302_write_byte(day_w, (write_byte & 0x03));
 
 				break;
 			case DATE:
-				ds1302_write_byte(date_w, (((write_byte/10)<<4) & 0x30  | (write_byte%10)));
+				ds1302_write_byte(date_w, ((((write_byte/10)<<4) & 0x30)  | (write_byte%10)));
 
 				break;
 			case MONTH:
-				ds1302_write_byte(month_w, (((write_byte/10)<<4) & 0x10 | (write_byte%10)));	
+				ds1302_write_byte(month_w, ((((write_byte/10)<<4) & 0x10) | (write_byte%10)));	
 
 				break;
 			case YEAR:
-				ds1302_write_byte(year_w, (((write_byte/10)<<4) & 0xF0 | (write_byte%10)));
+				ds1302_write_byte(year_w, ((((write_byte/10)<<4) & 0xF0) | (write_byte%10)));
 				break;
 			default:
 				break;
