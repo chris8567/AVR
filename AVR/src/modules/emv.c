@@ -11,7 +11,7 @@
 #include "modules/timer0.h"
 
 uint16_t emv_switches = 0xffff;
-uint16_t emv_control_word = 0xff;
+uint16_t emv_control_word = 0xffff;
 bool emv_working = false;
 uint8_t blower_on_time_ms = 100;
 uint8_t blower_interval_s = 2; 
@@ -23,7 +23,7 @@ void emv_ports_init(void){
 	MR_HIGH;
 	OEn_LOW;
 
-	
+	emv_refresh();
 	
 }
 

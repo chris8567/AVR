@@ -52,6 +52,7 @@ void lcd12864_clear(void);
 void lcd12864_loop(char *str);
 void lcd12864_write_float(float v);
 void lcd12864_write_int(int v);
+void lcd12864_SetWhite(uint8_t x, uint8_t y, uint8_t end_x, uint8_t clear);
 
 #endif
  /* LCD12864_H_ */

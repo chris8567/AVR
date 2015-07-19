@@ -42,6 +42,7 @@ void Act_Update_Main(void){
 		lcd12864_write_str(MODE0);
 		break;
 	}
+	
 	lcd12864_set_pos(4,1);
 	if(Blowing_State){
 		if(blink_factor)

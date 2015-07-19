@@ -126,8 +126,8 @@ Type_State *FindState(uint16_t statename){
 		SYS_State = FindState(MENU_STATE_MAIN);
 	
 		Current_TimerFunc = SYS_State->Timer_Action;
-		
-		Timer0_RegisterCallbackFunction(Current_TimerFunc,1000);
+		Current_TimerFunc();
+		Timer0_RegisterCallbackFunction(SYS_State->Timer_Action,1000);
 		State_Update();
 		DrawScreen();
 	}
