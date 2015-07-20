@@ -683,7 +683,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x1d src/modules/menu.o
  .debug_macro   0x00000000       0x16 src/modules/menu.o
  .debug_macro   0x00000000       0xf4 src/modules/menu.o
- .debug_macro   0x00000000       0x76 src/modules/menu.o
+ .debug_macro   0x00000000       0x7c src/modules/menu.o
  .debug_macro   0x00000000       0x34 src/modules/menu.o
  .debug_macro   0x00000000       0x16 src/modules/menu.o
  .debug_macro   0x00000000       0x64 src/modules/menu.o
@@ -915,7 +915,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x28 src/modules/buttons.o
  .debug_macro   0x00000000       0x1d src/modules/buttons.o
  .debug_macro   0x00000000       0x64 src/modules/buttons.o
- .debug_macro   0x00000000       0x76 src/modules/buttons.o
+ .debug_macro   0x00000000       0x7c src/modules/buttons.o
  .debug_macro   0x00000000       0x16 src/modules/buttons.o
  .group         0x00000000        0x8 src/modules/lcd12864.o
  .group         0x00000000        0x8 src/modules/lcd12864.o
@@ -957,7 +957,7 @@ Discarded input sections
                 0x00000000       0x5e src/modules/lcd12864.o
  .text.lcd12864_write_float
                 0x00000000       0x88 src/modules/lcd12864.o
- .bss.buffer.2110
+ .bss.buffer.2117
                 0x00000000       0x40 src/modules/lcd12864.o
  .debug_macro   0x00000000      0xa48 src/modules/lcd12864.o
  .debug_macro   0x00000000       0x10 src/modules/lcd12864.o
@@ -990,7 +990,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x64 src/modules/lcd12864.o
  .debug_macro   0x00000000       0x28 src/modules/lcd12864.o
  .debug_macro   0x00000000       0x1d src/modules/lcd12864.o
- .debug_macro   0x00000000       0x70 src/modules/lcd12864.o
+ .debug_macro   0x00000000       0x76 src/modules/lcd12864.o
  .group         0x00000000        0x8 src/ASF/common/boards/user_board/init.o
  .group         0x00000000        0x8 src/ASF/common/boards/user_board/init.o
  .group         0x00000000        0x8 src/ASF/common/boards/user_board/init.o
@@ -1379,7 +1379,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x17ae
+.text           0x00000000     0x18e2
  *(.vectors)
  .vectors       0x00000000       0x8c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51/crtm128a.o
                 0x00000000                __vector_default
@@ -1471,169 +1471,175 @@ END GROUP
                 0x000000c8                __vector_20
                 0x000000ca                . = ALIGN (0x2)
  *(.text.*)
- .text.main     0x000000ca       0x2e src/main.o
+ .text.main     0x000000ca       0x16 src/main.o
                 0x000000ca                main
  .text.Act_Update_Main
-                0x000000f8      0x2ba src/modules/actions.o
-                0x000000f8                Act_Update_Main
+                0x000000e0      0x2ba src/modules/actions.o
+                0x000000e0                Act_Update_Main
  .text.Act_pressure_setting1_display
-                0x000003b2       0x22 src/modules/actions.o
-                0x000003b2                Act_pressure_setting1_display
+                0x0000039a       0x22 src/modules/actions.o
+                0x0000039a                Act_pressure_setting1_display
  .text.ADC_init
-                0x000003d4       0x16 src/modules/adc.o
-                0x000003d4                ADC_init
+                0x000003bc       0x16 src/modules/adc.o
+                0x000003bc                ADC_init
  .text.ADC_readonce
-                0x000003ea       0x1c src/modules/adc.o
-                0x000003ea                ADC_readonce
+                0x000003d2       0x1c src/modules/adc.o
+                0x000003d2                ADC_readonce
  .text.ADC_read
-                0x00000406       0x9c src/modules/adc.o
-                0x00000406                ADC_read
+                0x000003ee       0x9e src/modules/adc.o
+                0x000003ee                ADC_read
  .text.emv_refresh
-                0x000004a2       0x52 src/modules/emv.o
-                0x000004a2                emv_refresh
+                0x0000048c       0x52 src/modules/emv.o
+                0x0000048c                emv_refresh
  .text.emv_ports_init
-                0x000004f4       0x28 src/modules/emv.o
-                0x000004f4                emv_ports_init
- .text.init_IO  0x0000051c       0x2e src/modules/io.o
-                0x0000051c                init_IO
- .text.Alarm    0x0000054a        0xc src/modules/io.o
-                0x0000054a                Alarm
+                0x000004de       0x28 src/modules/emv.o
+                0x000004de                emv_ports_init
+ .text.init_IO  0x00000506       0x2e src/modules/io.o
+                0x00000506                init_IO
+ .text.Alarm    0x00000534        0xc src/modules/io.o
+                0x00000534                Alarm
  .text.DrawScreen
-                0x00000556       0x76 src/modules/menu.o
-                0x00000556                DrawScreen
+                0x00000540       0x7e src/modules/menu.o
+                0x00000540                DrawScreen
  .text.FindState
-                0x000005cc       0x58 src/modules/menu.o
-                0x000005cc                FindState
+                0x000005be       0x58 src/modules/menu.o
+                0x000005be                FindState
  .text.State_Update
-                0x00000624      0x6c4 src/modules/menu.o
-                0x00000624                State_Update
+                0x00000616      0x6c4 src/modules/menu.o
+                0x00000616                State_Update
  .text.Menu_Init
-                0x00000ce8       0x3a src/modules/menu.o
-                0x00000ce8                Menu_Init
+                0x00000cda       0x58 src/modules/menu.o
+                0x00000cda                Menu_Init
  .text.Menu_Poll
-                0x00000d22      0x14c src/modules/menu.o
-                0x00000d22                Menu_Poll
+                0x00000d32      0x14c src/modules/menu.o
+                0x00000d32                Menu_Poll
  .text.Timer0_Init
-                0x00000e6e       0x4a src/modules/timer0.o
-                0x00000e6e                Timer0_Init
+                0x00000e7e       0x4a src/modules/timer0.o
+                0x00000e7e                Timer0_Init
  .text.__vector_15
-                0x00000eb8       0xd6 src/modules/timer0.o
-                0x00000eb8                __vector_15
+                0x00000ec8       0xd6 src/modules/timer0.o
+                0x00000ec8                __vector_15
  .text.Timer0_RegisterCallbackFunction
-                0x00000f8e       0xaa src/modules/timer0.o
-                0x00000f8e                Timer0_RegisterCallbackFunction
+                0x00000f9e       0xaa src/modules/timer0.o
+                0x00000f9e                Timer0_RegisterCallbackFunction
  .text.Timer0_RemoveCallbackFunction
-                0x00001038       0x6a src/modules/timer0.o
-                0x00001038                Timer0_RemoveCallbackFunction
+                0x00001048       0x6a src/modules/timer0.o
+                0x00001048                Timer0_RemoveCallbackFunction
  .text.Timer0_AllocateCountdownTimer
-                0x000010a2       0x3c src/modules/timer0.o
-                0x000010a2                Timer0_AllocateCountdownTimer
+                0x000010b2       0x3c src/modules/timer0.o
+                0x000010b2                Timer0_AllocateCountdownTimer
  .text.buttons_init
-                0x000010de       0x24 src/modules/buttons.o
-                0x000010de                buttons_init
+                0x000010ee       0x24 src/modules/buttons.o
+                0x000010ee                buttons_init
  .text.button_interrupt
-                0x00001102       0x5a src/modules/buttons.o
-                0x00001102                button_interrupt
+                0x00001112       0x5a src/modules/buttons.o
+                0x00001112                button_interrupt
  .text.__vector_2
-                0x0000115c       0x52 src/modules/buttons.o
-                0x0000115c                __vector_2
- .text.getkey   0x000011ae       0x1a src/modules/buttons.o
-                0x000011ae                getkey
- .text.lcd12864_send_data
-                0x000011c8       0x24 src/modules/lcd12864.o
-                0x000011c8                lcd12864_send_data
+                0x0000116c       0x52 src/modules/buttons.o
+                0x0000116c                __vector_2
+ .text.getkey   0x000011be       0x1a src/modules/buttons.o
+                0x000011be                getkey
+ .text.lcd12864_send_byte
+                0x000011d8       0x22 src/modules/lcd12864.o
+                0x000011d8                lcd12864_send_byte
  .text.lcd12864_wait_busy
-                0x000011ec       0x10 src/modules/lcd12864.o
-                0x000011ec                lcd12864_wait_busy
+                0x000011fa        0xe src/modules/lcd12864.o
+                0x000011fa                lcd12864_wait_busy
+ .text.lcd12864_send_data
+                0x00001208       0x20 src/modules/lcd12864.o
+                0x00001208                lcd12864_send_data
  .text.lcd12864_send_cmd
-                0x000011fc       0x20 src/modules/lcd12864.o
-                0x000011fc                lcd12864_send_cmd
- .text.lcd12864_init
-                0x0000121c       0x32 src/modules/lcd12864.o
-                0x0000121c                lcd12864_init
+                0x00001228       0x20 src/modules/lcd12864.o
+                0x00001228                lcd12864_send_cmd
  .text.lcd12864_clear
-                0x0000124e        0x8 src/modules/lcd12864.o
-                0x0000124e                lcd12864_clear
+                0x00001248       0x14 src/modules/lcd12864.o
+                0x00001248                lcd12864_clear
  .text.lcd12864_set_pos
-                0x00001256       0x32 src/modules/lcd12864.o
-                0x00001256                lcd12864_set_pos
+                0x0000125c       0x32 src/modules/lcd12864.o
+                0x0000125c                lcd12864_set_pos
  .text.lcd12864_write_char
-                0x00001288       0x20 src/modules/lcd12864.o
-                0x00001288                lcd12864_write_char
+                0x0000128e        0x4 src/modules/lcd12864.o
+                0x0000128e                lcd12864_write_char
  .text.lcd12864_write_str
-                0x000012a8       0x28 src/modules/lcd12864.o
-                0x000012a8                lcd12864_write_str
+                0x00001292       0x28 src/modules/lcd12864.o
+                0x00001292                lcd12864_write_str
  .text.lcd12864_write_int
-                0x000012d0       0x10 src/modules/lcd12864.o
-                0x000012d0                lcd12864_write_int
+                0x000012ba       0x10 src/modules/lcd12864.o
+                0x000012ba                lcd12864_write_int
  .text.lcd12864_SetWhite
-                0x000012e0      0x138 src/modules/lcd12864.o
-                0x000012e0                lcd12864_SetWhite
+                0x000012ca      0x1a8 src/modules/lcd12864.o
+                0x000012ca                lcd12864_SetWhite
+ .text.lcd12864_clrGDRAM
+                0x00001472       0x92 src/modules/lcd12864.o
+                0x00001472                lcd12864_clrGDRAM
+ .text.lcd12864_init
+                0x00001504       0x48 src/modules/lcd12864.o
+                0x00001504                lcd12864_init
  .text.avr-libc.fplib
-                0x00001418        0xa c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(addsf3.o)
-                0x00001418                __subsf3
-                0x0000141a                __addsf3
+                0x0000154c        0xa c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(addsf3.o)
+                0x0000154c                __subsf3
+                0x0000154e                __addsf3
  .text.avr-libc.fplib
-                0x00001422       0xc0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(addsf3x.o)
-                0x0000143c                __addsf3x
+                0x00001556       0xc0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(addsf3x.o)
+                0x00001570                __addsf3x
  .text.avr-libc.fplib
-                0x000014e2        0xa c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fixsfsi.o)
-                0x000014e2                __fixsfsi
+                0x00001616        0xa c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fixsfsi.o)
+                0x00001616                __fixsfsi
  .text.avr-libc.fplib
-                0x000014ec       0x58 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fixunssfsi.o)
-                0x000014ec                __fixunssfsi
+                0x00001620       0x58 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fixunssfsi.o)
+                0x00001620                __fixunssfsi
  .text.avr-libc.fplib
-                0x00001544       0x7a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(floatsisf.o)
-                0x00001544                __floatunsisf
-                0x00001548                __floatsisf
+                0x00001678       0x7a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(floatsisf.o)
+                0x00001678                __floatunsisf
+                0x0000167c                __floatsisf
  .text.avr-libc.fplib
-                0x000015be        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_inf.o)
-                0x000015be                __fp_inf
+                0x000016f2        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_inf.o)
+                0x000016f2                __fp_inf
  .text.avr-libc.fplib
-                0x000015ca        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_nan.o)
-                0x000015ca                __fp_nan
+                0x000016fe        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_nan.o)
+                0x000016fe                __fp_nan
  .text.avr-libc.fplib
-                0x000015d0        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_pscA.o)
-                0x000015d0                __fp_pscA
+                0x00001704        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_pscA.o)
+                0x00001704                __fp_pscA
  .text.avr-libc.fplib
-                0x000015de        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_pscB.o)
-                0x000015de                __fp_pscB
+                0x00001712        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_pscB.o)
+                0x00001712                __fp_pscB
  .text.avr-libc.fplib
-                0x000015ec       0x22 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_round.o)
-                0x000015ec                __fp_round
+                0x00001720       0x22 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_round.o)
+                0x00001720                __fp_round
  .text.avr-libc.fplib
-                0x0000160e       0x44 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_split3.o)
-                0x0000160e                __fp_split3
-                0x0000161e                __fp_splitA
+                0x00001742       0x44 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_split3.o)
+                0x00001742                __fp_split3
+                0x00001752                __fp_splitA
  .text.avr-libc.fplib
-                0x00001652        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_zero.o)
-                0x00001652                __fp_zero
-                0x00001654                __fp_szero
+                0x00001786        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(fp_zero.o)
+                0x00001786                __fp_zero
+                0x00001788                __fp_szero
  .text.avr-libc.fplib
-                0x00001660        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(mulsf3.o)
-                0x00001660                __mulsf3
+                0x00001794        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(mulsf3.o)
+                0x00001794                __mulsf3
  .text.avr-libc.fplib
-                0x00001664       0xc2 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(mulsf3x.o)
-                0x00001678                __mulsf3x
-                0x0000167c                __mulsf3_pse
+                0x00001798       0xc2 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libm.a(mulsf3x.o)
+                0x000017ac                __mulsf3x
+                0x000017b0                __mulsf3_pse
  .text.libgcc.mul
-                0x00001726       0x1e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_umulhisi3.o)
-                0x00001726                __umulhisi3
+                0x0000185a       0x1e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_umulhisi3.o)
+                0x0000185a                __umulhisi3
  .text.avr-libc
-                0x00001744       0x14 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
-                0x00001744                __itoa_ncheck
+                0x00001878       0x14 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
+                0x00001878                __itoa_ncheck
  .text.avr-libc
-                0x00001758       0x32 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
-                0x00001758                __utoa_ncheck
-                0x0000175a                __utoa_common
+                0x0000188c       0x32 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
+                0x0000188c                __utoa_ncheck
+                0x0000188e                __utoa_common
  .text.avr-libc
-                0x0000178a       0x20 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
-                0x0000178a                strrev
-                0x000017aa                . = ALIGN (0x2)
+                0x000018be       0x20 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
+                0x000018be                strrev
+                0x000018de                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000017aa        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
-                0x000017aa                _exit
-                0x000017aa                exit
+ .fini9         0x000018de        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+                0x000018de                _exit
+                0x000018de                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -1652,11 +1658,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000017aa        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+ .fini0         0x000018de        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x000017ae                _etext = .
+                0x000018e2                _etext = .
 
-.data           0x00800100      0x39a load address 0x000017ae
+.data           0x00800100      0x39a load address 0x000018e2
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -1698,13 +1704,13 @@ END GROUP
                 0x0080049a                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.days.2029
+ .bss.days.2033
                 0x0080049a        0x2 src/modules/actions.o
- .bss.hours.2030
+ .bss.hours.2034
                 0x0080049c        0x2 src/modules/actions.o
- .bss.m.2031    0x0080049e        0x2 src/modules/actions.o
- .bss.s.2032    0x008004a0        0x2 src/modules/actions.o
- .bss.blink_factor.2028
+ .bss.m.2035    0x0080049e        0x2 src/modules/actions.o
+ .bss.s.2036    0x008004a0        0x2 src/modules/actions.o
+ .bss.blink_factor.2032
                 0x008004a2        0x1 src/modules/actions.o
  .bss.Blowing_State
                 0x008004a3        0x1 src/modules/menu.o
@@ -1732,8 +1738,8 @@ END GROUP
  COMMON         0x008004ed        0x1 src/modules/buttons.o
                 0x008004ed                CountdownTimerHandler
                 0x008004ee                PROVIDE (__bss_end, .)
-                0x000017ae                __data_load_start = LOADADDR (.data)
-                0x00001b48                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000018e2                __data_load_start = LOADADDR (.data)
+                0x00001c7c                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x008004ee        0x0
                 0x008004ee                PROVIDE (__noinit_start, .)
@@ -1807,7 +1813,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x250
+.debug_aranges  0x00000000      0x260
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x20 src/main.o
@@ -1826,48 +1832,48 @@ END GROUP
  .debug_aranges
                 0x000001a0       0x38 src/modules/buttons.o
  .debug_aranges
-                0x000001d8       0x78 src/modules/lcd12864.o
+                0x000001d8       0x88 src/modules/lcd12864.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x1f84
+.debug_info     0x00000000     0x2389
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x19d src/main.o
- .debug_info    0x0000019d      0x538 src/modules/actions.o
- .debug_info    0x000006d5      0x196 src/modules/adc.o
- .debug_info    0x0000086b      0x3af src/modules/emv.o
- .debug_info    0x00000c1a       0xdc src/modules/io.o
- .debug_info    0x00000cf6      0x5f4 src/modules/menu.o
- .debug_info    0x000012ea      0x298 src/modules/timer0.o
- .debug_info    0x00001582      0x17b src/modules/buttons.o
- .debug_info    0x000016fd      0x887 src/modules/lcd12864.o
+ .debug_info    0x00000000      0x12b src/main.o
+ .debug_info    0x0000012b      0x538 src/modules/actions.o
+ .debug_info    0x00000663      0x196 src/modules/adc.o
+ .debug_info    0x000007f9      0x3af src/modules/emv.o
+ .debug_info    0x00000ba8       0xdc src/modules/io.o
+ .debug_info    0x00000c84      0x6b5 src/modules/menu.o
+ .debug_info    0x00001339      0x298 src/modules/timer0.o
+ .debug_info    0x000015d1      0x17b src/modules/buttons.o
+ .debug_info    0x0000174c      0xc3d src/modules/lcd12864.o
 
-.debug_abbrev   0x00000000      0xbe3
+.debug_abbrev   0x00000000      0xbd5
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0xa7 src/main.o
- .debug_abbrev  0x000000a7      0x1da src/modules/actions.o
- .debug_abbrev  0x00000281      0x131 src/modules/adc.o
- .debug_abbrev  0x000003b2      0x166 src/modules/emv.o
- .debug_abbrev  0x00000518       0xa4 src/modules/io.o
- .debug_abbrev  0x000005bc      0x1f4 src/modules/menu.o
- .debug_abbrev  0x000007b0      0x135 src/modules/timer0.o
- .debug_abbrev  0x000008e5       0xea src/modules/buttons.o
- .debug_abbrev  0x000009cf      0x214 src/modules/lcd12864.o
+ .debug_abbrev  0x00000000       0x67 src/main.o
+ .debug_abbrev  0x00000067      0x1da src/modules/actions.o
+ .debug_abbrev  0x00000241      0x131 src/modules/adc.o
+ .debug_abbrev  0x00000372      0x166 src/modules/emv.o
+ .debug_abbrev  0x000004d8       0xa4 src/modules/io.o
+ .debug_abbrev  0x0000057c      0x1f4 src/modules/menu.o
+ .debug_abbrev  0x00000770      0x135 src/modules/timer0.o
+ .debug_abbrev  0x000008a5       0xea src/modules/buttons.o
+ .debug_abbrev  0x0000098f      0x246 src/modules/lcd12864.o
 
-.debug_line     0x00000000     0x3dcc
+.debug_line     0x00000000     0x3fdd
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x5db src/main.o
- .debug_line    0x000005db      0x669 src/modules/actions.o
- .debug_line    0x00000c44      0x629 src/modules/adc.o
- .debug_line    0x0000126d      0x713 src/modules/emv.o
- .debug_line    0x00001980      0x521 src/modules/io.o
- .debug_line    0x00001ea1      0x9e4 src/modules/menu.o
- .debug_line    0x00002885      0x6b9 src/modules/timer0.o
- .debug_line    0x00002f3e      0x5f8 src/modules/buttons.o
- .debug_line    0x00003536      0x896 src/modules/lcd12864.o
+ .debug_line    0x00000000      0x5cf src/main.o
+ .debug_line    0x000005cf      0x669 src/modules/actions.o
+ .debug_line    0x00000c38      0x629 src/modules/adc.o
+ .debug_line    0x00001261      0x713 src/modules/emv.o
+ .debug_line    0x00001974      0x521 src/modules/io.o
+ .debug_line    0x00001e95      0xa02 src/modules/menu.o
+ .debug_line    0x00002897      0x6b9 src/modules/timer0.o
+ .debug_line    0x00002f50      0x5f8 src/modules/buttons.o
+ .debug_line    0x00003548      0xa95 src/modules/lcd12864.o
 
-.debug_frame    0x00000000      0x530
+.debug_frame    0x00000000      0x55c
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 src/main.o
  .debug_frame   0x00000024       0x64 src/modules/actions.o
@@ -1877,30 +1883,30 @@ END GROUP
  .debug_frame   0x000001d0       0x74 src/modules/menu.o
  .debug_frame   0x00000244       0xec src/modules/timer0.o
  .debug_frame   0x00000330       0x9c src/modules/buttons.o
- .debug_frame   0x000003cc      0x164 src/modules/lcd12864.o
+ .debug_frame   0x000003cc      0x190 src/modules/lcd12864.o
 
-.debug_str      0x00000000    0x10dd4
+.debug_str      0x00000000    0x10e27
  *(.debug_str)
- .debug_str     0x00000000    0x1055c src/main.o
-                              0x106f3 (size before relaxing)
- .debug_str     0x0001055c      0x177 src/modules/actions.o
-                              0x10224 (size before relaxing)
- .debug_str     0x000106d3       0x80 src/modules/adc.o
+ .debug_str     0x00000000    0x1056d src/main.o
+                              0x10704 (size before relaxing)
+ .debug_str     0x0001056d      0x17f src/modules/actions.o
+                              0x1024f (size before relaxing)
+ .debug_str     0x000106ec       0x80 src/modules/adc.o
                                0xfdcb (size before relaxing)
- .debug_str     0x00010753       0xef src/modules/emv.o
+ .debug_str     0x0001076c       0xef src/modules/emv.o
                                0xff97 (size before relaxing)
- .debug_str     0x00010842       0x20 src/modules/io.o
+ .debug_str     0x0001085b       0x20 src/modules/io.o
                                0xf979 (size before relaxing)
- .debug_str     0x00010862      0x1f5 src/modules/menu.o
-                              0x10463 (size before relaxing)
- .debug_str     0x00010a57       0xde src/modules/timer0.o
+ .debug_str     0x0001087b      0x219 src/modules/menu.o
+                              0x104b2 (size before relaxing)
+ .debug_str     0x00010a94       0xde src/modules/timer0.o
                                0xfac7 (size before relaxing)
- .debug_str     0x00010b35       0x6f src/modules/buttons.o
-                               0xfd87 (size before relaxing)
- .debug_str     0x00010ba4      0x230 src/modules/lcd12864.o
-                               0xfe8e (size before relaxing)
+ .debug_str     0x00010b72       0x6f src/modules/buttons.o
+                               0xfdb2 (size before relaxing)
+ .debug_str     0x00010be1      0x246 src/modules/lcd12864.o
+                               0xfee1 (size before relaxing)
 
-.debug_loc      0x00000000     0x1222
+.debug_loc      0x00000000     0x150b
  *(.debug_loc)
  .debug_loc     0x00000000      0x138 src/modules/actions.o
  .debug_loc     0x00000138      0x1dd src/modules/adc.o
@@ -1909,7 +1915,7 @@ END GROUP
  .debug_loc     0x00000410       0xd3 src/modules/menu.o
  .debug_loc     0x000004e3      0x3e4 src/modules/timer0.o
  .debug_loc     0x000008c7      0x125 src/modules/buttons.o
- .debug_loc     0x000009ec      0x836 src/modules/lcd12864.o
+ .debug_loc     0x000009ec      0xb1f src/modules/lcd12864.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1929,7 +1935,7 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x1c0
+.debug_ranges   0x00000000      0x1d0
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x10 src/main.o
  .debug_ranges  0x00000010       0x18 src/modules/actions.o
@@ -1939,32 +1945,32 @@ END GROUP
  .debug_ranges  0x000000b8       0x38 src/modules/menu.o
  .debug_ranges  0x000000f0       0x40 src/modules/timer0.o
  .debug_ranges  0x00000130       0x28 src/modules/buttons.o
- .debug_ranges  0x00000158       0x68 src/modules/lcd12864.o
+ .debug_ranges  0x00000158       0x78 src/modules/lcd12864.o
 
-.debug_macro    0x00000000     0x1553
+.debug_macro    0x00000000     0x1565
  *(.debug_macro)
  .debug_macro   0x00000000      0x213 src/main.o
  .debug_macro   0x00000213       0x22 src/main.o
  .debug_macro   0x00000235       0x28 src/main.o
  .debug_macro   0x0000025d       0x1d src/main.o
- .debug_macro   0x0000027a       0x76 src/main.o
- .debug_macro   0x000002f0       0x64 src/main.o
- .debug_macro   0x00000354       0x16 src/main.o
- .debug_macro   0x0000036a       0xf4 src/main.o
- .debug_macro   0x0000045e       0x16 src/main.o
- .debug_macro   0x00000474       0x46 src/main.o
- .debug_macro   0x000004ba       0x34 src/main.o
- .debug_macro   0x000004ee       0x10 src/main.o
- .debug_macro   0x000004fe      0x167 src/main.o
- .debug_macro   0x00000665      0x1ff src/modules/actions.o
- .debug_macro   0x00000864       0x70 src/modules/actions.o
- .debug_macro   0x000008d4      0x1c9 src/modules/adc.o
- .debug_macro   0x00000a9d      0x1d2 src/modules/emv.o
- .debug_macro   0x00000c6f      0x1ad src/modules/io.o
- .debug_macro   0x00000e1c      0x1ea src/modules/menu.o
- .debug_macro   0x00001006      0x1ad src/modules/timer0.o
- .debug_macro   0x000011b3      0x1bf src/modules/buttons.o
- .debug_macro   0x00001372      0x1cb src/modules/lcd12864.o
- .debug_macro   0x0000153d       0x16 src/modules/lcd12864.o
+ .debug_macro   0x0000027a       0x7c src/main.o
+ .debug_macro   0x000002f6       0x64 src/main.o
+ .debug_macro   0x0000035a       0x16 src/main.o
+ .debug_macro   0x00000370       0xf4 src/main.o
+ .debug_macro   0x00000464       0x16 src/main.o
+ .debug_macro   0x0000047a       0x46 src/main.o
+ .debug_macro   0x000004c0       0x34 src/main.o
+ .debug_macro   0x000004f4       0x10 src/main.o
+ .debug_macro   0x00000504      0x167 src/main.o
+ .debug_macro   0x0000066b      0x1ff src/modules/actions.o
+ .debug_macro   0x0000086a       0x76 src/modules/actions.o
+ .debug_macro   0x000008e0      0x1c9 src/modules/adc.o
+ .debug_macro   0x00000aa9      0x1d2 src/modules/emv.o
+ .debug_macro   0x00000c7b      0x1ad src/modules/io.o
+ .debug_macro   0x00000e28      0x1ea src/modules/menu.o
+ .debug_macro   0x00001012      0x1ad src/modules/timer0.o
+ .debug_macro   0x000011bf      0x1bf src/modules/buttons.o
+ .debug_macro   0x0000137e      0x1d1 src/modules/lcd12864.o
+ .debug_macro   0x0000154f       0x16 src/modules/lcd12864.o
 OUTPUT(AVR.elf elf32-avr)
 LOAD linker stubs

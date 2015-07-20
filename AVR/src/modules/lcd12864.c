@@ -10,63 +10,72 @@
 #include <asf.h>
 #include <string.h>
 #include <stdlib.h>
+#define DELAY 150
 
 
 void lcd12864_init(void){
 	SWITCH_LCD_IO_OUT;
-
+	LCD12864_RESET_0;
+	delay_ms(50);
 	LCD12864_RESET;
 	LCD12864_BACKLIGHT_ENABLE;
-
 	delay_ms(10);
 	lcd12864_send_cmd(0x30);
-
+	lcd12864_send_cmd(0x0C);
 	lcd12864_send_cmd(0x01);
 	lcd12864_send_cmd(0x02);
+
 	lcd12864_send_cmd(0x80);
 
-	lcd12864_send_cmd(0x06);
-
-	lcd12864_send_cmd(0x0c);
+	lcd12864_send_cmd(0x04);
+	lcd12864_send_cmd(0x0C);
+	lcd12864_clrGDRAM();
+	
 
 }
 
 void lcd12864_clear(void){
 	lcd12864_send_cmd(0x01);
-	lcd12864_wait_busy();
+	delay_ms(10);
 
 }
 
-void lcd12864_send_data(uint8_t data){
+void lcd12864_send_byte(uint8_t data){
 	uint8_t i;
 
 	for (i=0;i<8;i++){
+		LCD12864_CLK_L;	
 		if(data & 0x80)
 			LCD12864_SID_1;
 		else
 			LCD12864_SID_0;
 			data<<=1;
+		nop();nop();nop();
 		LCD12864_CLK_H;
-		nop();nop();nop();
-		
-		LCD12864_CLK_L;	
-		nop();nop();nop();
-	}
-	
+		nop();nop();
 
-	
+	}
+}
+
+void lcd12864_send_data(uint8_t data){
+	LCD12864_ENABLE;
+	lcd12864_send_byte(0xfa);
+	lcd12864_send_byte(0xf0&data);
+	lcd12864_send_byte(0xf0&(data<<4));
+	LCD12864_DISABLE;
+	lcd12864_wait_busy();
 }
 
 void lcd12864_wait_busy(void){
-delay_us(800);
+delay_us(DELAY);
 }
 
 void lcd12864_send_cmd(uint8_t cmd){
 	LCD12864_ENABLE;
 	
-	lcd12864_send_data(0xf8);
-	lcd12864_send_data(cmd & 0xf0);
-	lcd12864_send_data(cmd<<4);
+	lcd12864_send_byte(0xf8);
+	lcd12864_send_byte(cmd & 0xf0);
+	lcd12864_send_byte(cmd<<4);
 	lcd12864_wait_busy();
 	LCD12864_DISABLE;
 }
@@ -99,12 +108,9 @@ void lcd12864_set_pos(uint8_t x, uint8_t y){
 }
 
 void lcd12864_write_char(char data){
-		LCD12864_ENABLE;
-		lcd12864_wait_busy();
-		lcd12864_send_data(0xfa);
-		lcd12864_send_data(0xf0&data);
-		lcd12864_send_data(0xf0&data<<4);
-		LCD12864_DISABLE;
+
+		lcd12864_send_data(data);
+
 	
 }
 
@@ -152,63 +158,132 @@ void lcd12864_write_int(int v){
 
 
 void lcd12864_SetWhite(uint8_t x, uint8_t y, uint8_t width, uint8_t clear){
-	uint8_t i,j,white_x=0, white_y=0, white_end_x, clr_x=0, clr_y=0;
 	
-	lcd12864_send_cmd(0x34);	
-	lcd12864_send_cmd(0x36);	
+	uint8_t i,j;
+	uint8_t start_x=0, start_y=0;
+	uint8_t real_width=0;
+	if(y>4) y=4; if(y<1)y=1;
+	uint8_t block;
+	if(clear) block=0x00; 
+	else block = 0xff;
 	
-	
-	white_end_x = (end_x-x+1);
-	white_end_x <<=1; 
-	if(y>4) y=4; if(y<1) y=1;
 	switch(y){
 		case 1:
-			white_x = 0x80+x-1;
-			white_y = 0x80;
-			clr_x=0x80; clr_y =0x80;
+			start_x = 0x80+x/2;
+			start_y = 0x80;
 			break;
 		case 2:
-			white_x = 0x80+x-1;
-			white_y = 0x90;
-			clr_x = 0x80; clr_y = 0x90;
+			start_x = 0x80+x/2;
+			start_y=0x90;
 			break;
 		case 3:
-			white_x = 0x88+x-1;
-			white_y = 0x80;
-			clr_x =0x88; clr_y=0x80;
+			start_x = 0x88+x/2;
+			start_y = 0x80;
 			break;
 		case 4:
-			white_x = 0x88+x-1;
-			white_y = 0x90;
-			clr_x = 0x88; clr_y = 0x90;
+			start_x = 0x88+x/2;
+			start_y = 0x90;
 			break;
 		default:
 			break;
 	}
 	
-	if(clear==0){
+	lcd12864_send_cmd(0x34);
+	
+	if(x%2==0 && width%2==0){
+		real_width = width/2;
 		for(i=0;i<16;i++){
-			lcd12864_send_cmd(clr_y++);
-			lcd12864_send_cmd(clr_x);
-			for(j=0;j<32;j++){
-				lcd12864_send_data(0x00);
-				nop();nop();
+			lcd12864_send_cmd(start_y+i);
+			lcd12864_send_cmd(start_x);
+			for(j=0;j<real_width;j++){
+				lcd12864_send_data(block);
+				lcd12864_send_data(block);
 			}
 		}
 	}
-	nop();
-	for(i=0;i<16;i++){
-		lcd12864_send_cmd(white_y++);
-		lcd12864_send_cmd(white_x);
-		for(j=0;j<white_end_x;j++){
-			if(clear ==1)
-				lcd12864_send_data(0x00);		
-			else
-				lcd12864_send_data(0xff);
-		nop();
+	else if(x%2==0 && width%2!=0){
+		real_width = width/2;
+		for(i=0;i<16;i++){
+			lcd12864_send_cmd(start_y+i);
+			lcd12864_send_cmd(start_x);
+			for(j=0;j<real_width;j++){
+				lcd12864_send_data(block);
+				lcd12864_send_data(block);
+			}
+			lcd12864_send_data(block);
+			lcd12864_send_data(0x00);
+		}
+	}
+	else if(x%2!=0 && width%2==0){
+		real_width = width/2-1;
+		for(i=0;i<16;i++){
+			lcd12864_send_cmd(start_y+i);
+			lcd12864_send_cmd(start_x);
+			lcd12864_send_data(0x00);
+			lcd12864_send_data(block);
+			for(j=0;j<real_width;j++){
+				lcd12864_send_data(block);
+				lcd12864_send_data(block);
+			}
+			lcd12864_send_data(block);
+			lcd12864_send_data(0x00);
 		}
 		
 	}
-	lcd12864_send_cmd(0x30);
+	else if(x%2!=0 && width%2!=0){
+		real_width = width/2;
+		for(i=0;i<16;i++){
+			lcd12864_send_cmd(start_y+i);
+			lcd12864_send_cmd(start_x);
+			lcd12864_send_data(0x00);
+			lcd12864_send_data(block);
+			for(j=0;j<real_width;j++){
+				lcd12864_send_data(block);
+				lcd12864_send_data(block);
+			}
 			
+		}
+	}
+	
+	lcd12864_send_cmd(0x36);
+	lcd12864_send_cmd(0x30);		
+}
+
+void lcd12864_clrGDRAM(void){
+	uint8_t i,j;
+	lcd12864_send_cmd(0x34);
+	for(i=0;i<16;i++){
+		lcd12864_send_cmd(0x80+i);
+		lcd12864_send_cmd(0x80);
+		for(j=0;j<16;j++){
+			lcd12864_send_data(0x00);
+			lcd12864_send_data(0x00);
+		}
+	}
+	for(i=0;i<16;i++){
+		lcd12864_send_cmd(0x90+i);
+		lcd12864_send_cmd(0x80);
+		for(j=0;j<16;j++){
+			lcd12864_send_data(0x00);
+			lcd12864_send_data(0x00);
+		}
+	}
+	for(i=0;i<16;i++){
+		lcd12864_send_cmd(0x80+i);
+		lcd12864_send_cmd(0x88);
+		for(j=0;j<16;j++){
+			lcd12864_send_data(0x00);
+			lcd12864_send_data(0x00);
+		}
+	}
+	for(i=0;i<16;i++){
+		lcd12864_send_cmd(0x90+i);
+		lcd12864_send_cmd(0x88);
+		for(j=0;j<16;j++){
+			lcd12864_send_data(0x00);
+			lcd12864_send_data(0x00);
+		}
+	}
+	
+	lcd12864_send_cmd(0x30);
 }

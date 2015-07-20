@@ -19,6 +19,7 @@
  #define LCD_EN 6
  #define LCD_RST 5
  #define LCD_BTL_EN 7
+ #define LCD12864_RESET_0 LCD_PORT &= ~_BV(LCD_RST)
  #define LCD12864_RESET LCD_PORT |= _BV(LCD_RST)
  #define LCD12864_BACKLIGHT_ENABLE LCD_PORT &= ~_BV(LCD_BTL_EN)
  
@@ -52,7 +53,8 @@ void lcd12864_clear(void);
 void lcd12864_loop(char *str);
 void lcd12864_write_float(float v);
 void lcd12864_write_int(int v);
-void lcd12864_SetWhite(uint8_t x, uint8_t y, uint8_t end_x, uint8_t clear);
-
+void lcd12864_SetWhite(uint8_t x, uint8_t y, uint8_t width, uint8_t clear);
+void lcd12864_send_byte(uint8_t data);
+void lcd12864_clrGDRAM(void);
 #endif
  /* LCD12864_H_ */

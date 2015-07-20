@@ -107,9 +107,10 @@ uint8_t Get_Workmode(void){
 				lcd12864_write_char('*');
 				break;
 			default:
-				break;
-			
+				break;	
 		}
+		lcd12864_send_cmd(0x36);
+		lcd12864_send_cmd(0x30);
 		
 	}
 	
@@ -130,6 +131,9 @@ Type_State *FindState(uint16_t statename){
 		Timer0_RegisterCallbackFunction(SYS_State->Timer_Action,1000);
 		State_Update();
 		DrawScreen();
+		lcd12864_SetWhite(0,4,4,0);
+		lcd12864_SetWhite(6,4,4,0);
+		lcd12864_SetWhite(12,4,4,0);
 	}
 	
 	void State_Update(void){

@@ -54,12 +54,7 @@ int main (void)
 	Timer0_Init();
 	ADC_init();
 	Menu_Init();
-	
-	
-	//lcd12864_set_pos(1,1);
-	//lcd12864_write_str("ab");
-	lcd12864_SetWhite(2,1,8,0);
-	lcd12864_SetWhite(2,2,8,1);
+
 	while(1){
 	Menu_Poll();
 
