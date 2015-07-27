@@ -106,9 +106,8 @@ void Act_Update_Main(void){
 }
 
 void Act_pressure_setting1_display(void){
-	lcd12864_set_pos(6,2);
-	lcd12864_write_int(BlowPresureUpperLimit);
 	lcd12864_set_pos(6,3);
 	lcd12864_write_int(BlowPresureLowerLimit);
-	
+	lcd12864_set_pos(6,2);
+	lcd12864_write_int(BlowPresureUpperLimit);
 }

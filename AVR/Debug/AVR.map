@@ -1662,7 +1662,7 @@ END GROUP
  *(.fini0)
                 0x000018e2                _etext = .
 
-.data           0x00800100      0x39a load address 0x000018e2
+.data           0x00800100      0x3a4 load address 0x000018e2
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -1675,78 +1675,79 @@ END GROUP
  .data.Display_Strings
                 0x008002e2       0x3a src/modules/menu.o
                 0x008002e2                Display_Strings
- .data.BlowPresureLowerLimit
-                0x0080031c        0x2 src/modules/menu.o
-                0x0080031c                BlowPresureLowerLimit
  .data.BlowPresureUpperLimit
+                0x0080031c        0x2 src/modules/menu.o
+                0x0080031c                BlowPresureUpperLimit
+ .data.BlowPresureLowerLimit
                 0x0080031e        0x2 src/modules/menu.o
-                0x0080031e                BlowPresureUpperLimit
+                0x0080031e                BlowPresureLowerLimit
  .data.PD_Mode  0x00800320        0x1 src/modules/menu.o
                 0x00800320                PD_Mode
  .data.KEY      0x00800321        0x1 src/modules/buttons.o
                 0x00800321                KEY
  *(.rodata)
+ .rodata        0x00800322       0x12 src/modules/menu.o
  *(.rodata*)
  .rodata.str1.1
-                0x00800322       0x1a src/modules/actions.o
+                0x00800334       0x1a src/modules/actions.o
  .rodata.str1.1
-                0x0080033c      0x15d src/modules/menu.o
+                0x0080034e      0x150 src/modules/menu.o
  .rodata.str1.1
-                0x00000000      0x15d src/modules/lcd12864.o
+                0x0080049e        0x5 src/modules/lcd12864.o
                                   0x7 (size before relaxing)
  *(.gnu.linkonce.d*)
-                0x0080049a                . = ALIGN (0x2)
- *fill*         0x00800499        0x1 
-                0x0080049a                _edata = .
-                0x0080049a                PROVIDE (__data_end, .)
+                0x008004a4                . = ALIGN (0x2)
+ *fill*         0x008004a3        0x1 
+                0x008004a4                _edata = .
+                0x008004a4                PROVIDE (__data_end, .)
 
-.bss            0x0080049a       0x54
-                0x0080049a                PROVIDE (__bss_start, .)
+.bss            0x008004a4       0x54
+                0x008004a4                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.days.2033
-                0x0080049a        0x2 src/modules/actions.o
+                0x008004a4        0x2 src/modules/actions.o
  .bss.hours.2034
-                0x0080049c        0x2 src/modules/actions.o
- .bss.m.2035    0x0080049e        0x2 src/modules/actions.o
- .bss.s.2036    0x008004a0        0x2 src/modules/actions.o
+                0x008004a6        0x2 src/modules/actions.o
+ .bss.m.2035    0x008004a8        0x2 src/modules/actions.o
+ .bss.s.2036    0x008004aa        0x2 src/modules/actions.o
  .bss.blink_factor.2032
-                0x008004a2        0x1 src/modules/actions.o
+                0x008004ac        0x1 src/modules/actions.o
  .bss.Blowing_State
-                0x008004a3        0x1 src/modules/menu.o
-                0x008004a3                Blowing_State
+                0x008004ad        0x1 src/modules/menu.o
+                0x008004ad                Blowing_State
  .bss.Alarm_State
-                0x008004a4        0x1 src/modules/menu.o
-                0x008004a4                Alarm_State
+                0x008004ae        0x1 src/modules/menu.o
+                0x008004ae                Alarm_State
  .bss.Current_TimerFunc
-                0x008004a5        0x2 src/modules/menu.o
-                0x008004a5                Current_TimerFunc
+                0x008004af        0x2 src/modules/menu.o
+                0x008004af                Current_TimerFunc
  .bss.SYS_State
-                0x008004a7        0x2 src/modules/menu.o
-                0x008004a7                SYS_State
+                0x008004b1        0x2 src/modules/menu.o
+                0x008004b1                SYS_State
  .bss.tmp_counter.1956
-                0x008004a9        0x2 src/modules/timer0.o
+                0x008004b3        0x2 src/modules/timer0.o
  .bss.KEY_VALID
-                0x008004ab        0x1 src/modules/buttons.o
-                0x008004ab                KEY_VALID
+                0x008004b5        0x1 src/modules/buttons.o
+                0x008004b5                KEY_VALID
  *(COMMON)
- COMMON         0x008004ac        0x9 src/modules/menu.o
-                0x008004ac                SYS_Screen_Buffer
- COMMON         0x008004b5       0x38 src/modules/timer0.o
-                0x008004b5                CountDownTimers
-                0x008004bd                EventList
- COMMON         0x008004ed        0x1 src/modules/buttons.o
-                0x008004ed                CountdownTimerHandler
-                0x008004ee                PROVIDE (__bss_end, .)
+ COMMON         0x008004b6        0x9 src/modules/menu.o
+                0x008004b6                SYS_Screen_Buffer
+ COMMON         0x008004bf       0x38 src/modules/timer0.o
+                0x008004bf                CountDownTimers
+                0x008004c7                EventList
+ COMMON         0x008004f7        0x1 src/modules/buttons.o
+                0x008004f7                CountdownTimerHandler
+                0x008004f8                PROVIDE (__bss_end, .)
                 0x000018e2                __data_load_start = LOADADDR (.data)
-                0x00001c7c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00001c86                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008004ee        0x0
-                0x008004ee                PROVIDE (__noinit_start, .)
+.noinit         0x008004f8        0x0
+                0x008004f8                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x008004ee                PROVIDE (__noinit_end, .)
-                0x008004ee                _end = .
-                0x008004ee                PROVIDE (__heap_start, .)
+                0x008004f8                PROVIDE (__noinit_end, .)
+                0x008004f8                _end = .
+                0x008004f8                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
