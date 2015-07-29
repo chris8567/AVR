@@ -9,8 +9,8 @@
 #ifndef IO_H_
 #define IO_H_
 #include <asf.h>
-#define  ON true
-#define OFF false
+#define  ALARM_ON true
+#define ALARM_OFF false
 
 void init_IO(void);
 void Alarm(bool state);

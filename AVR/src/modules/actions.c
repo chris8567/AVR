@@ -11,7 +11,23 @@
 #include "modules/menu.h"
 #include "modules//adc.h"
 #include <stdlib.h>
+#define ADC_UPPER_LIMIT 920
+#define ADC_UPPER_VALUE 3400
+#define DEFAULT_PD_UPPER 1020
+#define DEFAULT_PD_LOWER 510
+#define DEFAULT_BLOWER_COUNTER_LIMIT 1000000
+#define ON 1
+#define OFF 0
 
+#define UNIT_MMH2O 0x01;
+#define UNIT_PA	   0x02;
+
+uint8_t PD_Unit = UNIT_PA;
+uint16_t PD_Upper_Limit = DEFAULT_PD_UPPER;
+uint16_t PD_Lower_Limit = DEFAULT_PD_LOWER;
+uint8_t PD_Mode =1;
+uint8_t Alarm_State = OFF;
+uint8_t Blowing_State = OFF;
 
 #define MODE0 "[X]"
 #define MODE1 "[1]"
@@ -19,7 +35,6 @@
 #define MODE3 "[3]"
 
 void Act_Update_Main(void){
-	uint8_t mode = PD_Mode;
 	static uint8_t blink_factor = 0;
 	blink_factor = !blink_factor;
 	static uint16_t days=0, hours=0, m=0,s=0;
@@ -28,7 +43,7 @@ void Act_Update_Main(void){
 	int pressure_diff = (int)ADC_read(PRESSURE);
 	itoa(pressure_diff,pdstr,10);
 	lcd12864_set_pos(0,1);
-	switch(mode){
+	switch(PD_Mode){
 		case 1:
 		lcd12864_write_str(MODE1);
 		break;
@@ -93,11 +108,11 @@ void Act_Update_Main(void){
 	lcd12864_write_str(time);
 	
 	
-	if(pressure_diff > BlowPresureUpperLimit){
+	if(pressure_diff > PD_Upper_Limit){
 		Alarm_State = 1;
 		Alarm(1);
 	}
-	else if(pressure_diff < BlowPresureLowerLimit){
+	else if(pressure_diff < PD_Lower_Limit){
 		Alarm_State=0;
 		Alarm(0);
 	}
@@ -107,7 +122,38 @@ void Act_Update_Main(void){
 
 void Act_pressure_setting1_display(void){
 	lcd12864_set_pos(6,3);
-	lcd12864_write_int(BlowPresureLowerLimit);
+	lcd12864_write_int(PD_Upper_Limit);
 	lcd12864_set_pos(6,2);
-	lcd12864_write_int(BlowPresureUpperLimit);
+	lcd12864_write_int(PD_Lower_Limit);
+}
+
+
+void Act_PdUAddone(void){
+	;
+}
+void Act_PdDDecone(void){
+	;
+}
+
+void Act_PdUAddten(void){
+	;
+}
+void Act_PdDDecten(void){
+	;
+}
+void Act_PdUAddHud(void){
+	;
+}
+void Act_PdDDecHud(void){
+	;
+}
+void Act_SwitchUnit(void){
+	;
+}
+void Act_PdUApply(void){
+	;
+}
+
+void Act_DispUnit(void){
+	;
 }

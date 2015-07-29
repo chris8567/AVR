@@ -1,5 +1,5 @@
 src/modules/actions.d src/modules/actions.o: ../src/modules/actions.c \
- ../src/modules/actions.h ../src/modules/lcd12864.h ../src/asf.h \
+ ../src/modules/actions.h ../src/asf.h \
  ../src/ASF/mega/drivers/cpu/mega_reset_cause.h \
  ../src/ASF/mega/utils/compiler.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\io.h \
@@ -28,12 +28,11 @@ src/modules/actions.d src/modules/actions.o: ../src/modules/actions.c \
  ../src/ASF/common/services/clock/mega/sysclk.h \
  ../src/ASF/common/boards/board.h \
  ../src/ASF/common/services/delay/mega/cycle_counter.h \
- ../src/ASF/mega/utils/status_codes.h ../src/modules/io.h \
- ../src/modules/menu.h ../src/modules/timer0.h ../src/modules//adc.h
+ ../src/ASF/mega/utils/status_codes.h ../src/modules/lcd12864.h \
+ ../src/modules/io.h ../src/modules/menu.h ../src/modules/timer0.h \
+ ../src/modules//adc.h
 
 ../src/modules/actions.h:
-
-../src/modules/lcd12864.h:
 
 ../src/asf.h:
 
@@ -100,6 +99,8 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-g
 ../src/ASF/common/services/delay/mega/cycle_counter.h:
 
 ../src/ASF/mega/utils/status_codes.h:
+
+../src/modules/lcd12864.h:
 
 ../src/modules/io.h:
 

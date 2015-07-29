@@ -13,18 +13,13 @@
 #define BLOWING_SYM 0x0F
 #define ALARM_SYM 0x21
 
-#define DISPLAY_STR_LENGTH	29
-#define STATE_LIST_LENGTH	20
+#define DISPLAY_STR_LENGTH	34
+#define STATE_LIST_LENGTH	29
 typedef void (*ACTION_CALLBACK_FUNC) (void);
 
 
 extern char *Display_Strings[DISPLAY_STR_LENGTH];
-extern uint8_t PD_Mode;
-extern uint8_t Alarm_State;
-extern uint8_t Blowing_State;
 
-extern uint16_t BlowPresureUpperLimit;
-extern uint16_t BlowPresureLowerLimit;
 
 typedef struct State{
 	uint16_t	Current_State;
@@ -80,8 +75,13 @@ typedef struct ScreenContent{
 #define MENU_STATE_PD_MODE1_P1		0x3101
 #define MENU_STATE_PD_MODE1_P2		0x3102
 #define MENU_STATE_PD_MODE1_P3		0x3103
-#define	MENU_STATE_PD_M1ADJ_UP		0x3112
-#define	MENU_STATE_PD_M1ADJ_DN		0x3113
+#define MENU_STATE_PD_MODE1_P4		0x3104   //unit
+#define	MENU_STATE_PD_M1ADJ_UP1		0x3111
+#define MENU_STATE_PD_M1ADJ_UP2		0x3112
+#define MENU_STATE_PD_M1ADJ_UP3		0x3113
+#define	MENU_STATE_PD_M1ADJ_DN1		0x3114
+#define	MENU_STATE_PD_M1ADJ_DN2		0x3115
+#define	MENU_STATE_PD_M1ADJ_DN3		0x3116
 #define MENU_STATE_PD_MODE2_P1		0x3201
 #define MENU_STATE_PD_MODE2_P2		0x3202
 #define MENU_STATE_PD_MODE2_P3		0x3203
@@ -97,13 +97,14 @@ typedef struct ScreenContent{
 
 
 
+
 void Menu_Init(void);
 void Menu_Poll(void);
 void DrawScreen(void);
 
 Type_State *FindState(uint16_t statename);
 void State_Update(void); 
-uint8_t Get_Workmode(void);
+
 
 
 #endif /* MENU_H_ */

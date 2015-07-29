@@ -19,7 +19,7 @@ void init_IO(void){
 }
 
 void Alarm(bool state){
-	if(state==ON){
+	if(state==ALARM_ON){
 		PORTB &=~_BV(0);
 		//PORTG |=_BV(0);
 	}
@@ -31,7 +31,7 @@ void Alarm(bool state){
 }
 
 void Clean(bool state){
-	if(state==ON){
+	if(state==ALARM_ON){
 		PORTF &=~_BV(3);
 	}
 	else{
