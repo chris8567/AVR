@@ -41,7 +41,9 @@ extern Type_State *SYS_State;
 
 typedef struct ScreenContent{
 	char *line[4];
-	uint8_t white_index;
+	uint8_t menu;
+	uint8_t index;
+	uint8_t focus;
 	}Type_Screen_Buffer;
 	
 

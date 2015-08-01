@@ -54,6 +54,7 @@ int main (void)
 	Timer0_Init();
 	ADC_init();
 	Menu_Init();
+	
 
 	while(1){
 	Menu_Poll();

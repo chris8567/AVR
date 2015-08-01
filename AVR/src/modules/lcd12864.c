@@ -245,7 +245,6 @@ void lcd12864_SetWhite(uint8_t x, uint8_t y, uint8_t width, uint8_t clear){
 		}
 	}
 	
-	lcd12864_send_cmd(0x36);
 	lcd12864_send_cmd(0x30);		
 }
 
@@ -287,3 +286,118 @@ void lcd12864_clrGDRAM(void){
 	
 	lcd12864_send_cmd(0x30);
 }
+
+
+void lcd12864_Focus(uint8_t menu, uint8_t index, uint8_t white){
+	static uint8_t o_menu=0xff,o_white=0xff;
+	if(menu != o_menu){
+	switch(menu){
+		case 0:
+			lcd12864_SetWhite(0,4,4,0);
+			lcd12864_SetWhite(6,4,4,0);
+			lcd12864_SetWhite(12,4,4,0);
+			break;
+		case 1:
+			lcd12864_SetWhite(0,4,4,0);
+			lcd12864_SetWhite(6,4,4,1);
+			lcd12864_SetWhite(12,4,4,1);
+			break;
+		default:
+			break;	
+	}
+	o_menu = menu;
+	}
+	
+	switch(index){
+			case 1:
+				lcd12864_set_pos(0,1); 
+				lcd12864_write_char('*');
+				break;
+			case 2:
+				lcd12864_set_pos(0,2);
+				lcd12864_write_char('*');
+				break;
+			case 3:
+				lcd12864_set_pos(0,3);
+				lcd12864_write_char('*');
+				break;
+			default:
+			break;
+	}
+	
+	if(o_white != white){
+	switch(white){
+		case 0:
+			lcd12864_SetWhite(12,2,1,1);
+			lcd12864_SetWhite(10,2,1,1);
+			lcd12864_SetWhite(13,3,1,1);
+			lcd12864_SetWhite(12,3,1,1);
+			lcd12864_SetWhite(10,3,1,1);
+			lcd12864_SetWhite(13,2,1,1);
+			break;
+
+		case 1:
+			lcd12864_SetWhite(12,2,1,1);
+			lcd12864_SetWhite(10,2,1,1);
+			lcd12864_SetWhite(13,3,1,1);
+			lcd12864_SetWhite(12,3,1,1);
+			lcd12864_SetWhite(10,3,1,1);
+			lcd12864_SetWhite(13,2,1,0);
+			break;
+
+			break;
+		case 2:
+			lcd12864_SetWhite(13,2,1,1);
+
+			lcd12864_SetWhite(10,2,1,1);
+			lcd12864_SetWhite(13,3,1,1);
+			lcd12864_SetWhite(12,3,1,1);
+			lcd12864_SetWhite(10,3,1,1);
+			lcd12864_SetWhite(12,2,1,0);
+			break;
+		case 3:
+			lcd12864_SetWhite(13,2,1,1);
+			lcd12864_SetWhite(12,2,1,1);
+
+			lcd12864_SetWhite(13,3,1,1);
+			lcd12864_SetWhite(12,3,1,1);
+			lcd12864_SetWhite(10,3,1,1);
+			lcd12864_SetWhite(10,2,1,0);
+			break;
+		case 4:
+			lcd12864_SetWhite(13,2,1,1);
+			lcd12864_SetWhite(12,2,1,1);
+			lcd12864_SetWhite(10,2,1,1);
+
+			lcd12864_SetWhite(12,3,1,1);
+			lcd12864_SetWhite(10,3,1,1);
+			lcd12864_SetWhite(13,3,1,0);
+			break;
+		case 5:
+			lcd12864_SetWhite(13,2,1,1);
+			lcd12864_SetWhite(12,2,1,1);
+			lcd12864_SetWhite(10,2,1,1);
+			lcd12864_SetWhite(13,3,1,1);
+			
+			lcd12864_SetWhite(10,3,1,1);
+			lcd12864_SetWhite(12,3,1,0);
+			break;
+		case 6:
+			lcd12864_SetWhite(13,2,1,1);
+			lcd12864_SetWhite(12,2,1,1);
+			lcd12864_SetWhite(10,2,1,1);
+			lcd12864_SetWhite(13,3,1,1);
+			lcd12864_SetWhite(12,3,1,1);
+			lcd12864_SetWhite(10,3,1,0);
+			break;
+		default:
+			break;
+	}
+	o_white = white;
+			
+	}
+	
+	lcd12864_send_cmd(0x36);
+	lcd12864_send_cmd(0x30);
+	}
+	

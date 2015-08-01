@@ -38,6 +38,7 @@ void set_blower_interval(uint8_t intv_s);
 void set_blower_on_time(uint8_t time_ms);
 
 void blow_seq(void);
+uint8_t stop_sequence(void);
 
 
 

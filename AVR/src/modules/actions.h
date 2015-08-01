@@ -18,8 +18,8 @@
 #define ON 1
 #define OFF 0
 
-#define UNIT_MMH2O 0x01;
-#define UNIT_PA	   0x02;
+#define UNIT_MMH2O 0x01
+#define UNIT_PA	   0x02
 
 extern uint8_t PD_Mode;
 extern uint8_t PD_Unit;
@@ -27,17 +27,23 @@ extern uint8_t PD_Unit;
 void Act_Update_Main(void);
 void Act_pressure_setting1_display(void);
 void Act_PdUAddone(void);
+void Act_PdUDecone(void);
+void Act_PdDAddone(void);
 void Act_PdDDecone(void);
 void Act_PdUAddten(void);
+void Act_PdDAddten(void);
+void Act_PdUDecten(void);
 void Act_PdDDecten(void);
 void Act_PdUAddHud(void);
+void Act_PdDAddHud(void);
+void Act_PdUDecHud(void);
 void Act_PdDDecHud(void);
 void Act_SwitchUnit(void);
 void Act_PdUApply(void);
 void Act_DispUnit(void);
 
 
-
+float Fun_UnitChange(uint16_t ADValue);
 
 
 

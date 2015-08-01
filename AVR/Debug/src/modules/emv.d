@@ -31,7 +31,7 @@ src/modules/emv.d src/modules/emv.o: ../src/modules/emv.c ../src/asf.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\math.h \
- ../src/modules/emv.h ../src/modules/timer0.h
+ ../src/modules/emv.h ../src/modules/timer0.h ../src/modules/io.h
 
 ../src/asf.h:
 
@@ -108,3 +108,5 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-g
 ../src/modules/emv.h:
 
 ../src/modules/timer0.h:
+
+../src/modules/io.h:
