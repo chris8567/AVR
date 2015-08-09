@@ -9,13 +9,21 @@
 #ifndef IO_H_
 #define IO_H_
 #include <asf.h>
-#define  ALARM_ON true
-#define ALARM_OFF false
+#define  IO_ON true
+#define IO_OFF false
+#define STOP 0
+#define STAR 1
+#define DELTA 2
 
 void init_IO(void);
 void Alarm(bool state);
 void Clean(bool state);
-
+void Airfan(uint8_t mode);
+void DustValve(uint8_t sw);
+bool START_Read(void);
+bool RUNNING_Read(void);
+bool PROGDISABLE_Read(void);
+bool ALARM_RESET_Read(void);
 
 
 

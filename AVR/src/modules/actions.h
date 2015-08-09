@@ -11,9 +11,10 @@
 #include <asf.h>
 
 #define ADC_UPPER_LIMIT 920
-#define ADC_UPPER_VALUE 3400
-#define DEFAULT_PD_UPPER 1020
-#define DEFAULT_PD_LOWER 510
+#define UNIT_CONV_PA 3.696
+#define UNIT_CONV_H2O 0.37696
+#define DEFAULT_PD_UPPER 1200.0
+#define DEFAULT_PD_LOWER 500.0
 #define DEFAULT_BLOWER_COUNTER_LIMIT 1000000
 #define ON 1
 #define OFF 0
@@ -23,6 +24,8 @@
 
 extern uint8_t PD_Mode;
 extern uint8_t PD_Unit;
+extern bool switch_start;
+extern bool swtich_monitoring; 
 
 void Act_Update_Main(void);
 void Act_pressure_setting1_display(void);
@@ -39,8 +42,10 @@ void Act_PdDAddHud(void);
 void Act_PdUDecHud(void);
 void Act_PdDDecHud(void);
 void Act_SwitchUnit(void);
-void Act_PdUApply(void);
 void Act_DispUnit(void);
+
+void Act_InitSystem(void);
+void Act_TerminatSystem(void);
 
 
 float Fun_UnitChange(uint16_t ADValue);

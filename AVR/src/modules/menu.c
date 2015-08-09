@@ -48,8 +48,9 @@ char *Display_Strings[DISPLAY_STR_LENGTH] = {\
 	"> 喷吹时间间隔",\
 	"返回  确认  帮助",\
 	"> 单位: Pa",\
-	"> 单位: mmH2O",\
-	"> 建设中..."\
+	"> 单位: mmWG",\
+	"> 建设中...",\
+	"系统停机！"\
 };
 
 
@@ -125,7 +126,10 @@ Type_State *FindState(uint16_t statename){
 			case MENU_STATE_MAIN:
 				SYS_Screen_Buffer.line[0] = Display_Strings[0];
 				SYS_Screen_Buffer.line[1] = Display_Strings[1];
+				if(swtich_monitoring==true)
 				SYS_Screen_Buffer.line[2] = Display_Strings[2];
+				else
+				SYS_Screen_Buffer.line[2] = Display_Strings[32];
 				SYS_Screen_Buffer.line[3] = Display_Strings[3];
 				SYS_Screen_Buffer.menu = 0;
 				SYS_Screen_Buffer.index = 0;
@@ -406,7 +410,7 @@ Type_State *FindState(uint16_t statename){
 			
 	}
 	
-	void Menu_Poll(void){
+void Menu_Poll(void){
 		uint8_t key = getkey();
 		switch(key){
 			case BUTTON_RIGHT:
@@ -453,9 +457,22 @@ Type_State *FindState(uint16_t statename){
 			Current_TimerFunc = SYS_State->Timer_Action;
 			if(Current_TimerFunc != NULL){
 			Current_TimerFunc();
-			Timer0_RegisterCallbackFunction(Current_TimerFunc,1000);}
-			
-		
+			Timer0_RegisterCallbackFunction(Current_TimerFunc,1000);}	
+	}
+	
+	if(START_Read()){
+		if(!switch_start){
+			switch_start = true;
+			Act_InitSystem();
+			}
+	}
+	else{
+		if(swtich_monitoring)
+			Act_TerminatSystem();
+		else{
+		Airfan(STOP);
+		DustValve(IO_OFF);
+		}
 	}
 	
 	}

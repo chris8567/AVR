@@ -137,13 +137,16 @@ void lcd12864_loop(char *str){
 	}	
 }
 
-void lcd12864_write_float(float v){
+void lcd12864_write_float(float v,uint8_t numd){
 	char *str=" ";
+	uint8_t i;
 	itoa((int)v,str,10);
 	lcd12864_write_str(str);
+	if(numd==0) return;
 	lcd12864_write_char('.');
 	float digi = v - (int)v;
-	digi*=100;
+	for(i=0;i<numd;i++)
+		digi*=10;
 	itoa((int)digi,str,10);
 	lcd12864_write_str(str);
 }

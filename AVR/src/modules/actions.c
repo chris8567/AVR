@@ -12,21 +12,21 @@
 #include "modules/adc.h"
 #include "modules/emv.h"
 #include <stdlib.h>
-#define ADC_UPPER_LIMIT 920
-#define ADC_UPPER_VALUE 3400
-#define DEFAULT_PD_UPPER 1020
-#define DEFAULT_PD_LOWER 510
-#define DEFAULT_BLOWER_COUNTER_LIMIT 1000000
-#define ON 1
-#define OFF 0
+
   
 
 uint8_t PD_Unit = UNIT_PA;
-uint16_t PD_Upper_Limit = DEFAULT_PD_UPPER;
-uint16_t PD_Lower_Limit = DEFAULT_PD_LOWER;
+float PD_Upper_Limit = DEFAULT_PD_UPPER;
+float PD_Lower_Limit = DEFAULT_PD_LOWER;
 uint8_t PD_Mode =1;
 uint8_t Alarm_State = OFF;
 uint8_t Blowing_State = OFF;
+bool switch_start = false;
+bool swtich_monitoring = false;
+uint8_t Delay_DustvavleToFan=5;
+uint8_t Delay_FanStarToDelta=5; 
+uint8_t Delay_FantoDustvavle=5;
+
 
 #define MODE0 "[X]"
 #define MODE1 "[1]"
@@ -38,9 +38,8 @@ void Act_Update_Main(void){
 	blink_factor = !blink_factor;
 	static uint16_t days=0, hours=0, m=0,s=0;
 	char *time="00d00h00m";
-	char pdstr[4];
 	int pressure_diff = (int)ADC_read(PRESSURE);
-	itoa(pressure_diff,pdstr,10);
+
 	lcd12864_set_pos(0,1);
 	switch(PD_Mode){
 		case 1:
@@ -58,6 +57,7 @@ void Act_Update_Main(void){
 	}
 	
 	lcd12864_set_pos(4,1);
+	if(swtich_monitoring){
 	if(Blowing_State){
 		if(blink_factor)
 		lcd12864_write_char(0x0f);
@@ -71,6 +71,12 @@ void Act_Update_Main(void){
 		lcd12864_write_char(0x09);
 		
 	}
+	}
+	else{
+		lcd12864_write_char(' ');
+	}
+	
+	
 	
 	lcd12864_set_pos(7,1);
 	if(Alarm_State){
@@ -85,8 +91,13 @@ void Act_Update_Main(void){
 	}
 	
 	lcd12864_set_pos(5,2);
-	lcd12864_write_float(Fun_UnitChange(pressure_diff));
+	if(PD_Unit == UNIT_PA)
+	lcd12864_write_float(Fun_UnitChange(pressure_diff),0);
+	else
+	lcd12864_write_float(Fun_UnitChange(pressure_diff),1);
+
 	lcd12864_set_pos(3,3);
+	if(swtich_monitoring){
 	s++;
 	if(s==60){
 		m++; s=0;
@@ -107,13 +118,15 @@ void Act_Update_Main(void){
 	lcd12864_write_str(time);
 	
 	
-	if(pressure_diff > PD_Upper_Limit){
+	if(Fun_UnitChange(pressure_diff) > PD_Upper_Limit){
 			start_sequence();
 			Blowing_State = 1;
 	}
-	else if(pressure_diff < PD_Lower_Limit){
+	else if(Fun_UnitChange(pressure_diff) < PD_Lower_Limit){
 		stop_sequence();
 		Blowing_State = 0;
+	}
+	
 	}
 
 
@@ -122,9 +135,9 @@ void Act_Update_Main(void){
 float Fun_UnitChange(uint16_t ADValue){
 	float result; 
 	if(PD_Unit == UNIT_PA)
-		result = ((float)ADValue * 3.4)/921.0;
+		result = (float)ADValue * UNIT_CONV_PA;
 	else
-		result = ((float)ADValue * 346.7)/921.0;
+		result = (float)ADValue * UNIT_CONV_H2O;
 	return result;
 	
 		
@@ -132,10 +145,13 @@ float Fun_UnitChange(uint16_t ADValue){
 }
 
 void Act_pressure_setting1_display(void){
+	uint8_t n=0;
+	if(PD_Unit == UNIT_MMH2O)
+		n=1;
 	lcd12864_set_pos(5,2);
-	lcd12864_write_float(Fun_UnitChange(PD_Upper_Limit));
+	lcd12864_write_float(PD_Upper_Limit,n);
 	lcd12864_set_pos(5,3);
-	lcd12864_write_float(Fun_UnitChange(PD_Lower_Limit));
+	lcd12864_write_float(PD_Lower_Limit,n);
 }
 
 
@@ -199,11 +215,77 @@ void Act_PdDDecHud(void){
 	PD_Lower_Limit-=300;
 }
 void Act_SwitchUnit(void){
-	if(PD_Unit == UNIT_PA)
+	if(PD_Unit == UNIT_PA){
 		PD_Unit = UNIT_MMH2O;
-	else
+		PD_Upper_Limit /= UNIT_CONV_PA;
+		PD_Upper_Limit *= UNIT_CONV_H2O;
+		PD_Lower_Limit /= UNIT_CONV_PA;
+		PD_Lower_Limit *= UNIT_CONV_H2O;
+	}
+	else{
 		PD_Unit = UNIT_PA; 
+		PD_Upper_Limit /= UNIT_CONV_H2O;
+		PD_Upper_Limit *= UNIT_CONV_PA;
+		PD_Lower_Limit /= UNIT_CONV_H2O;
+		PD_Lower_Limit *= UNIT_CONV_PA;
+		
+	}
 	
 }
 
+void Act_InitSystem(void){
+	uint8_t i;
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("            \n");
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("系统启动... ");
+	delay_ms(1000);
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("卸灰阀启动...");
+	DustValve(IO_ON);
+	for(i=Delay_DustvavleToFan;i>0;i--){
+	lcd12864_set_pos(7,3);
+	lcd12864_write_int(i);
+	delay_ms(1000);
+	}
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("风机启动STAR ");
+	Airfan(STAR);
+	for(i=Delay_FanStarToDelta;i>0;i--){
+	lcd12864_set_pos(7,3);
+	lcd12864_write_int(i);
+	delay_ms(1000);
+	}
+	Airfan(DELTA);
+	swtich_monitoring = true;
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("风机启动DELTA");
+	delay_ms(2000);
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("时间:");
+		
+}
 
+void Act_TerminatSystem(void){
+	uint8_t i;
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("风机停机... ");
+	swtich_monitoring = false;
+	Airfan(STOP);
+	delay_ms(1000);
+	for(i=Delay_FantoDustvavle;i>0;i--){
+	lcd12864_set_pos(7,3);
+	lcd12864_write_int(i);
+	delay_ms(1000);
+	}
+		
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("卸灰阀停止！");
+	DustValve(IO_OFF);
+	delay_ms(3000);
+	lcd12864_set_pos(0,3);
+	lcd12864_write_str("系统停机.    ");	
+	switch_start = false;
+	
+	
+}
