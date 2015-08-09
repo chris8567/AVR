@@ -47,7 +47,6 @@ int main (void)
 {
 
 	/* Insert system clock initialization code here (sysclk_init()). */
-	uint8_t a=0;
 	buttons_init(); 
 	lcd12864_init();
 	init_IO();
@@ -55,7 +54,6 @@ int main (void)
 	Timer0_Init();
 	ADC_init();
 	Menu_Init();
-	DDRC = 0x00;
 
 	while(1){
 	Menu_Poll();
