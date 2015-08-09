@@ -57,5 +57,6 @@ void lcd12864_SetWhite(uint8_t x, uint8_t y, uint8_t width, uint8_t clear);
 void lcd12864_send_byte(uint8_t data);
 void lcd12864_clrGDRAM(void);
 void lcd12864_Focus(uint8_t menu, uint8_t index, uint8_t white);
+void WriteBlank(uint8_t n);
 #endif
  /* LCD12864_H_ */

@@ -50,7 +50,8 @@ char *Display_Strings[DISPLAY_STR_LENGTH] = {\
 	"> 单位: Pa",\
 	"> 单位: mmWG",\
 	"> 建设中...",\
-	"系统停机"\
+	"系统停机",\
+	"向左  确认  向右"\
 };
 
 
@@ -87,16 +88,18 @@ Type_State State_List[STATE_LIST_LENGTH]={\
 
 
 	void DrawScreen(void){
+		cli();
 		lcd12864_clear();
 		lcd12864_set_pos(0,1);
 		lcd12864_write_str(SYS_Screen_Buffer.line[0]);
 		lcd12864_set_pos(0,2);
 		lcd12864_write_str(SYS_Screen_Buffer.line[1]);
-		lcd12864_set_pos(0,3);
-		lcd12864_write_str(SYS_Screen_Buffer.line[2]);
+	
+		UpdateLine(SYS_Screen_Buffer.line[2],3);
 		lcd12864_set_pos(0,4);
 		lcd12864_write_str(SYS_Screen_Buffer.line[3]);
-		lcd12864_Focus(SYS_Screen_Buffer.menu, SYS_Screen_Buffer.index, SYS_Screen_Buffer.focus);		
+		lcd12864_Focus(SYS_Screen_Buffer.menu, SYS_Screen_Buffer.index, SYS_Screen_Buffer.focus);	
+		sei();	
 	}
 	
 Type_State *FindState(uint16_t statename){
@@ -134,6 +137,7 @@ Type_State *FindState(uint16_t statename){
 				SYS_Screen_Buffer.menu = 0;
 				SYS_Screen_Buffer.index = 0;
 				SYS_Screen_Buffer.focus = 0;
+				
 				break;
 			case MENU_STATE_ITEMLIST_P1:
 				SYS_Screen_Buffer.line[0] = Display_Strings[5]; 
@@ -333,7 +337,7 @@ Type_State *FindState(uint16_t statename){
 				SYS_Screen_Buffer.line[0] = Display_Strings[22];
 				SYS_Screen_Buffer.line[1] = Display_Strings[23];
 				SYS_Screen_Buffer.line[2] = Display_Strings[24];
-				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.line[3] = Display_Strings[33];
 				SYS_Screen_Buffer.menu = 0;
 				SYS_Screen_Buffer.index = 2;
 				SYS_Screen_Buffer.focus = 1;
@@ -345,7 +349,7 @@ Type_State *FindState(uint16_t statename){
 				SYS_Screen_Buffer.line[0] = Display_Strings[22];
 				SYS_Screen_Buffer.line[1] = Display_Strings[23];
 				SYS_Screen_Buffer.line[2] = Display_Strings[24];
-				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.line[3] = Display_Strings[33];
 				SYS_Screen_Buffer.menu = 0;
 				SYS_Screen_Buffer.index = 2;
 				SYS_Screen_Buffer.focus = 2;
@@ -357,7 +361,7 @@ Type_State *FindState(uint16_t statename){
 				SYS_Screen_Buffer.line[0] = Display_Strings[22];
 				SYS_Screen_Buffer.line[1] = Display_Strings[23];
 				SYS_Screen_Buffer.line[2] = Display_Strings[24];
-				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.line[3] = Display_Strings[33];
 				SYS_Screen_Buffer.menu = 0;
 				SYS_Screen_Buffer.index = 2;
 				SYS_Screen_Buffer.focus = 3;
@@ -369,7 +373,7 @@ Type_State *FindState(uint16_t statename){
 				SYS_Screen_Buffer.line[0] = Display_Strings[22];
 				SYS_Screen_Buffer.line[1] = Display_Strings[23];
 				SYS_Screen_Buffer.line[2] = Display_Strings[24];
-				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.line[3] = Display_Strings[33];
 				SYS_Screen_Buffer.menu = 0;
 				SYS_Screen_Buffer.index = 3;
 				SYS_Screen_Buffer.focus = 4;
@@ -381,7 +385,7 @@ Type_State *FindState(uint16_t statename){
 				SYS_Screen_Buffer.line[0] = Display_Strings[22];
 				SYS_Screen_Buffer.line[1] = Display_Strings[23];
 				SYS_Screen_Buffer.line[2] = Display_Strings[24];
-				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.line[3] = Display_Strings[33];
 				SYS_Screen_Buffer.menu = 0;
 				SYS_Screen_Buffer.index = 3;
 				SYS_Screen_Buffer.focus = 5;
@@ -393,7 +397,7 @@ Type_State *FindState(uint16_t statename){
 				SYS_Screen_Buffer.line[0] = Display_Strings[22];
 				SYS_Screen_Buffer.line[1] = Display_Strings[23];
 				SYS_Screen_Buffer.line[2] = Display_Strings[24];
-				SYS_Screen_Buffer.line[3] = Display_Strings[28];
+				SYS_Screen_Buffer.line[3] = Display_Strings[33];
 				SYS_Screen_Buffer.menu = 0;
 				SYS_Screen_Buffer.index = 3;
 				SYS_Screen_Buffer.focus = 6;

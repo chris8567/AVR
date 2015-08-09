@@ -36,9 +36,10 @@ uint8_t Delay_FantoDustvavle=5;
 
 void Act_Update_Main(void){
 	static uint8_t blink_factor = 0;
+	static int days=0;
+	static uint8_t hours=0, m=0,s=0;
 	blink_factor = !blink_factor;
-	static uint16_t days=0, hours=0, m=0,s=0;
-	char *time="00d00h00m";
+	static char *time="00d00h00m";
 	int pressure_diff = (int)ADC_read(PRESSURE);
 
 	lcd12864_set_pos(0,1);
@@ -92,6 +93,8 @@ void Act_Update_Main(void){
 	}
 	
 	lcd12864_set_pos(5,2);
+	WriteBlank(6);
+	lcd12864_set_pos(5,2);
 	if(PD_Unit == UNIT_PA)
 	lcd12864_write_float(Fun_UnitChange(pressure_diff),0);
 	else
@@ -107,14 +110,14 @@ void Act_Update_Main(void){
 		hours++; m=0;
 	}
 	if(hours == 24){
-		days++;
+		days++; hours =0;
 	}
 	time[7]=m%10+'0';
 	time[6]=m/10+'0';
 	time[4]=hours%10+'0';
 	time[3]=hours/10+'0';
-	time[1]=days%10+'0';
-	time[0]=days/10+'0';
+	time[1]=days/10+'0';
+	time[0]=days%10+'0';
 
 	lcd12864_write_str(time);
 	
@@ -132,7 +135,7 @@ void Act_Update_Main(void){
 
 }
 
-float Fun_UnitChange(uint16_t ADValue){
+float Fun_UnitChange(int ADValue){
 	float result; 
 	if(PD_Unit == UNIT_PA)
 		result = (float)ADValue * UNIT_CONV_PA;
@@ -156,63 +159,172 @@ void Act_pressure_setting1_display(void){
 
 
 void Act_PdUAddone(void){
-		if(PD_Upper_Limit+3<=950)
-	PD_Upper_Limit +=3;
+	float upper_limit;
+	if(PD_Unit == UNIT_PA){
+		upper_limit = ADC_UPPER_LIMIT*UNIT_CONV_PA;
+		if(PD_Upper_Limit+1<=upper_limit)
+		PD_Upper_Limit +=1;
+	}
+	else{
+		upper_limit = ADC_UPPER_LIMIT*UNIT_CONV_H2O;
+		if(PD_Upper_Limit+0.1<=upper_limit)
+		PD_Upper_Limit +=0.1;
+	}
+
 }
 
 void Act_PdUDecone(void){
-	if(PD_Upper_Limit-3>=PD_Lower_Limit)
-	PD_Upper_Limit-=3;
+	float lower_limit;
+	if(PD_Unit == UNIT_PA){
+		lower_limit = PD_Lower_Limit;
+		if(PD_Upper_Limit-1>=lower_limit)
+		PD_Upper_Limit -=1;
+	}
+	else{
+		lower_limit = PD_Lower_Limit;
+		if(PD_Upper_Limit-0.1>=lower_limit)
+		PD_Upper_Limit -=0.1;
+	}
+
 }
+
 void Act_PdDAddone(void){
-		if(PD_Lower_Limit+3<PD_Upper_Limit)
-		PD_Lower_Limit+=3;
+	float upper_limit;
+	if(PD_Unit == UNIT_PA){
+		upper_limit = PD_Upper_Limit;
+		if(PD_Lower_Limit+1<=upper_limit)
+		PD_Lower_Limit+=1;
+	}
+	else{
+		upper_limit = PD_Upper_Limit;
+		if(PD_Lower_Limit+0.1<=upper_limit)
+		PD_Lower_Limit +=0.1;
+	}
 }
 
 void Act_PdDDecone(void){
-	if(PD_Lower_Limit-3>=100)
-		PD_Lower_Limit-=3;
+	float lower_limit;
+	if(PD_Unit == UNIT_PA){
+		lower_limit = ADC_LOWER_LIMIT*UNIT_CONV_PA;
+		if(PD_Lower_Limit-1>=lower_limit)
+		PD_Lower_Limit -=1;
+	}
+	else{
+		lower_limit = ADC_LOWER_LIMIT*UNIT_CONV_H2O;
+		if(PD_Lower_Limit-0.1>=lower_limit)
+		PD_Lower_Limit -=0.1;
+	}
 }
 
 void Act_PdUAddten(void){
-	if(PD_Upper_Limit+30<=950)
-		PD_Upper_Limit +=30;
+	float upper_limit;
+	if(PD_Unit == UNIT_PA){
+		upper_limit = ADC_UPPER_LIMIT*UNIT_CONV_PA;
+		if(PD_Upper_Limit+10<=upper_limit)
+		PD_Upper_Limit +=10;
+	}
+	else{
+		upper_limit = ADC_UPPER_LIMIT*UNIT_CONV_H2O;
+		if(PD_Upper_Limit+1<=upper_limit)
+		PD_Upper_Limit +=1;
+	}
 }
 
 void Act_PdUDecten(void){
-	if(PD_Upper_Limit-30>=PD_Lower_Limit)
-		PD_Upper_Limit-=30;
+	float lower_limit;
+	if(PD_Unit == UNIT_PA){
+		lower_limit = PD_Lower_Limit;
+		if(PD_Upper_Limit-10>=lower_limit)
+		PD_Upper_Limit -=10;
+	}
+	else{
+		lower_limit = PD_Lower_Limit;
+		if(PD_Upper_Limit-1>=lower_limit)
+		PD_Upper_Limit -=1;
+	}
 	
 }
 
 void Act_PdDAddten(void){
-	
-	if(PD_Lower_Limit+30<PD_Upper_Limit)
-		PD_Lower_Limit+=30;
+	float upper_limit;
+	if(PD_Unit == UNIT_PA){
+		upper_limit = PD_Upper_Limit;
+		if(PD_Lower_Limit+10<=upper_limit)
+		PD_Lower_Limit+=10;
+	}
+	else{
+		upper_limit = PD_Upper_Limit;
+		if(PD_Lower_Limit+1<=upper_limit)
+		PD_Lower_Limit +=1;
+	}
 }
 
 void Act_PdDDecten(void){
-	if(PD_Lower_Limit-30>=100)
-	PD_Lower_Limit-=30;
+	float lower_limit;
+	if(PD_Unit == UNIT_PA){
+		lower_limit = ADC_LOWER_LIMIT*UNIT_CONV_PA;
+		if(PD_Lower_Limit-10>=lower_limit)
+		PD_Lower_Limit -=10;
+	}
+	else{
+		lower_limit = ADC_LOWER_LIMIT*UNIT_CONV_H2O;
+		if(PD_Lower_Limit-1>=lower_limit)
+		PD_Lower_Limit -=1;
+	}
 }
 void Act_PdUAddHud(void){
-	if(PD_Upper_Limit+300<=950)
-	PD_Upper_Limit +=300;
+	float upper_limit;
+	if(PD_Unit == UNIT_PA){
+		upper_limit = ADC_UPPER_LIMIT*UNIT_CONV_PA;
+		if(PD_Upper_Limit+100<=upper_limit)
+		PD_Upper_Limit +=100;
+	}
+	else{
+		upper_limit = ADC_UPPER_LIMIT*UNIT_CONV_H2O;
+		if(PD_Upper_Limit+10<=upper_limit)
+		PD_Upper_Limit +=10;
+	}
 }
 void Act_PdUDecHud(void){
-	if(PD_Upper_Limit-300>=PD_Lower_Limit)
-		PD_Upper_Limit-=300;
+	float lower_limit;
+	if(PD_Unit == UNIT_PA){
+		lower_limit = PD_Lower_Limit;
+		if(PD_Upper_Limit-100>=lower_limit)
+		PD_Upper_Limit -=100;
+	}
+	else{
+		lower_limit = PD_Lower_Limit;
+		if(PD_Upper_Limit-10>=lower_limit)
+		PD_Upper_Limit -=10;
+	}
 }
 
 void Act_PdDAddHud(void){
-	
-	if(PD_Lower_Limit+300<PD_Upper_Limit)
-	PD_Lower_Limit+=300;
+	float upper_limit;
+	if(PD_Unit == UNIT_PA){
+		upper_limit = PD_Upper_Limit;
+		if(PD_Lower_Limit+100<=upper_limit)
+		PD_Lower_Limit+=100;
+	}
+	else{
+		upper_limit = PD_Upper_Limit;
+		if(PD_Lower_Limit+10<=upper_limit)
+		PD_Lower_Limit +=10;
+	}
 	
 }
 void Act_PdDDecHud(void){
-	if(PD_Lower_Limit-300>=100)
-	PD_Lower_Limit-=300;
+	float lower_limit;
+	if(PD_Unit == UNIT_PA){
+		lower_limit = ADC_LOWER_LIMIT*UNIT_CONV_PA;
+		if(PD_Lower_Limit-100>=lower_limit)
+		PD_Lower_Limit -=100;
+	}
+	else{
+		lower_limit = ADC_LOWER_LIMIT*UNIT_CONV_H2O;
+		if(PD_Lower_Limit-10>=lower_limit)
+		PD_Lower_Limit -=10;
+	}
 }
 void Act_SwitchUnit(void){
 	if(PD_Unit == UNIT_PA){

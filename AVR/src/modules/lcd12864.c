@@ -10,10 +10,13 @@
 #include <asf.h>
 #include <string.h>
 #include <stdlib.h>
-#define DELAY 150
+#include <stdio.h>
+#include "modules/actions.h"
+#define DELAY 180
 
 
 void lcd12864_init(void){
+	cli();
 	SWITCH_LCD_IO_OUT;
 	LCD12864_RESET_0;
 	delay_ms(50);
@@ -30,7 +33,7 @@ void lcd12864_init(void){
 	lcd12864_send_cmd(0x04);
 	lcd12864_send_cmd(0x0C);
 	lcd12864_clrGDRAM();
-	
+	sei();
 
 }
 
@@ -50,9 +53,9 @@ void lcd12864_send_byte(uint8_t data){
 		else
 			LCD12864_SID_0;
 			data<<=1;
-		nop();nop();nop();
+		nop();nop();nop();nop();nop();
 		LCD12864_CLK_H;
-		nop();nop();
+		nop();nop();nop();nop();
 
 	}
 }
@@ -138,18 +141,24 @@ void lcd12864_loop(char *str){
 }
 
 void lcd12864_write_float(float v,uint8_t numd){
-	char *str=" ";
-	uint8_t i;
-	itoa((int)v,str,10);
+	char str[7];
+	if(numd==0){
+	sprintf(str, "% 5d",(int)v);
 	lcd12864_write_str(str);
-	if(numd==0) return;
-	lcd12864_write_char('.');
-	float digi = v - (int)v;
-	for(i=0;i<numd;i++)
-		digi*=10;
-	itoa((int)digi,str,10);
+	return;
+	}
+	if(numd==1){
+	sprintf(str,"% 6d",(int)(v*100));
+	str[5]=str[4];
+	str[4]='.'; 
+
 	lcd12864_write_str(str);
-}
+	}
+	else
+	return;
+
+	
+	}
 
 
 void lcd12864_write_int(int v){
@@ -165,6 +174,7 @@ void lcd12864_SetWhite(uint8_t x, uint8_t y, uint8_t width, uint8_t clear){
 	uint8_t i,j;
 	uint8_t start_x=0, start_y=0;
 	uint8_t real_width=0;
+	cli();
 	if(y>4) y=4; if(y<1)y=1;
 	uint8_t block;
 	if(clear) block=0x00; 
@@ -249,10 +259,12 @@ void lcd12864_SetWhite(uint8_t x, uint8_t y, uint8_t width, uint8_t clear){
 	}
 	
 	lcd12864_send_cmd(0x30);		
+	sei();
 }
 
 void lcd12864_clrGDRAM(void){
 	uint8_t i,j;
+	cli();
 	lcd12864_send_cmd(0x34);
 	for(i=0;i<16;i++){
 		lcd12864_send_cmd(0x80+i);
@@ -288,11 +300,14 @@ void lcd12864_clrGDRAM(void){
 	}
 	
 	lcd12864_send_cmd(0x30);
+	sei();
 }
 
 
 void lcd12864_Focus(uint8_t menu, uint8_t index, uint8_t white){
 	static uint8_t o_menu=0xff,o_white=0xff;
+	uint8_t index1,index2,index3;
+	cli();
 	if(menu != o_menu){
 	switch(menu){
 		case 0:
@@ -329,69 +344,76 @@ void lcd12864_Focus(uint8_t menu, uint8_t index, uint8_t white){
 	}
 	
 	if(o_white != white){
+		if(PD_Unit == UNIT_PA){
+			index1=14; index2=13;index3=12;
+		}
+		else
+		{
+			index1=15; index2=13;index3=12;
+		}
+
+			
 	switch(white){
 		case 0:
-			lcd12864_SetWhite(12,2,1,1);
-			lcd12864_SetWhite(10,2,1,1);
-			lcd12864_SetWhite(13,3,1,1);
-			lcd12864_SetWhite(12,3,1,1);
-			lcd12864_SetWhite(10,3,1,1);
-			lcd12864_SetWhite(13,2,1,1);
+			lcd12864_SetWhite(index1,2,1,1);
+			lcd12864_SetWhite(index2,2,1,1);
+			lcd12864_SetWhite(index3,2,1,1);
+			lcd12864_SetWhite(index1,3,1,1);
+			lcd12864_SetWhite(index2,3,1,1);
+			lcd12864_SetWhite(index3,3,1,1);
 			break;
 
 		case 1:
-			lcd12864_SetWhite(12,2,1,1);
-			lcd12864_SetWhite(10,2,1,1);
-			lcd12864_SetWhite(13,3,1,1);
-			lcd12864_SetWhite(12,3,1,1);
-			lcd12864_SetWhite(10,3,1,1);
-			lcd12864_SetWhite(13,2,1,0);
-			break;
-
+			lcd12864_SetWhite(index2,2,1,1);
+			lcd12864_SetWhite(index3,2,1,1);
+			lcd12864_SetWhite(index1,3,1,1);
+			lcd12864_SetWhite(index2,3,1,1);
+			lcd12864_SetWhite(index3,3,1,1);
+			lcd12864_SetWhite(index1,2,1,0);
 			break;
 		case 2:
-			lcd12864_SetWhite(13,2,1,1);
-
-			lcd12864_SetWhite(10,2,1,1);
-			lcd12864_SetWhite(13,3,1,1);
-			lcd12864_SetWhite(12,3,1,1);
-			lcd12864_SetWhite(10,3,1,1);
-			lcd12864_SetWhite(12,2,1,0);
+			lcd12864_SetWhite(index1,2,1,1);
+			lcd12864_SetWhite(index3,2,1,1);
+			lcd12864_SetWhite(index1,3,1,1);
+			lcd12864_SetWhite(index2,3,1,1);
+			lcd12864_SetWhite(index3,3,1,1);
+			lcd12864_SetWhite(index2,2,1,0);
 			break;
 		case 3:
-			lcd12864_SetWhite(13,2,1,1);
-			lcd12864_SetWhite(12,2,1,1);
+			lcd12864_SetWhite(index1,2,1,1);
+			lcd12864_SetWhite(index2,2,1,1);
 
-			lcd12864_SetWhite(13,3,1,1);
-			lcd12864_SetWhite(12,3,1,1);
-			lcd12864_SetWhite(10,3,1,1);
-			lcd12864_SetWhite(10,2,1,0);
+			lcd12864_SetWhite(index1,3,1,1);
+			lcd12864_SetWhite(index2,3,1,1);
+			lcd12864_SetWhite(index3,3,1,1);
+			lcd12864_SetWhite(index3,2,1,0);
 			break;
 		case 4:
-			lcd12864_SetWhite(13,2,1,1);
-			lcd12864_SetWhite(12,2,1,1);
-			lcd12864_SetWhite(10,2,1,1);
+			lcd12864_SetWhite(index3,2,1,1);
+			lcd12864_SetWhite(index2,2,1,1);
+			lcd12864_SetWhite(index1,2,1,1);
 
-			lcd12864_SetWhite(12,3,1,1);
-			lcd12864_SetWhite(10,3,1,1);
-			lcd12864_SetWhite(13,3,1,0);
+			lcd12864_SetWhite(index2,3,1,1);
+			lcd12864_SetWhite(index3,3,1,1);
+			lcd12864_SetWhite(index1,3,1,0);
 			break;
 		case 5:
-			lcd12864_SetWhite(13,2,1,1);
-			lcd12864_SetWhite(12,2,1,1);
-			lcd12864_SetWhite(10,2,1,1);
-			lcd12864_SetWhite(13,3,1,1);
-			
-			lcd12864_SetWhite(10,3,1,1);
-			lcd12864_SetWhite(12,3,1,0);
+			lcd12864_SetWhite(index3,2,1,1);
+			lcd12864_SetWhite(index2,2,1,1);
+			lcd12864_SetWhite(index1,2,1,1);
+
+			lcd12864_SetWhite(index3,3,1,1);
+			lcd12864_SetWhite(index1,3,1,1);
+			lcd12864_SetWhite(index2,3,1,0);
 			break;
 		case 6:
-			lcd12864_SetWhite(13,2,1,1);
-			lcd12864_SetWhite(12,2,1,1);
-			lcd12864_SetWhite(10,2,1,1);
-			lcd12864_SetWhite(13,3,1,1);
-			lcd12864_SetWhite(12,3,1,1);
-			lcd12864_SetWhite(10,3,1,0);
+			lcd12864_SetWhite(index3,2,1,1);
+			lcd12864_SetWhite(index2,2,1,1);
+			lcd12864_SetWhite(index1,2,1,1);
+
+			lcd12864_SetWhite(index2,3,1,1);
+			lcd12864_SetWhite(index1,3,1,1);
+			lcd12864_SetWhite(index3,3,1,0);
 			break;
 		default:
 			break;
@@ -402,5 +424,13 @@ void lcd12864_Focus(uint8_t menu, uint8_t index, uint8_t white){
 	
 	lcd12864_send_cmd(0x36);
 	lcd12864_send_cmd(0x30);
+	sei();
 	}
 	
+void WriteBlank(uint8_t n){
+	cli();
+	uint8_t i;
+	for(i=0;i<n;i++)
+		lcd12864_write_char(0x20);
+	sei();
+}

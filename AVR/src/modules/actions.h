@@ -11,6 +11,7 @@
 #include <asf.h>
 
 #define ADC_UPPER_LIMIT 920
+#define ADC_LOWER_LIMIT 50
 #define UNIT_CONV_PA 3.696
 #define UNIT_CONV_H2O 0.37696
 #define DEFAULT_PD_UPPER 1200.0
@@ -49,7 +50,7 @@ void Act_InitSystem(void);
 void Act_TerminatSystem(void);
 
 
-float Fun_UnitChange(uint16_t ADValue);
+float Fun_UnitChange(int ADValue);
 void UpdateLine(char *str, uint8_t line);
 
 
