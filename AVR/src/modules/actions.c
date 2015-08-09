@@ -20,7 +20,8 @@ float PD_Upper_Limit = DEFAULT_PD_UPPER;
 float PD_Lower_Limit = DEFAULT_PD_LOWER;
 uint8_t PD_Mode =1;
 uint8_t Alarm_State = OFF;
-uint8_t Blowing_State = OFF;
+bool Blowing_State = false;
+
 bool switch_start = false;
 bool swtich_monitoring = false;
 uint8_t Delay_DustvavleToFan=5;
@@ -120,11 +121,10 @@ void Act_Update_Main(void){
 	
 	if(Fun_UnitChange(pressure_diff) > PD_Upper_Limit){
 			start_sequence();
-			Blowing_State = 1;
 	}
 	else if(Fun_UnitChange(pressure_diff) < PD_Lower_Limit){
 		stop_sequence();
-		Blowing_State = 0;
+		
 	}
 	
 	}
@@ -259,8 +259,9 @@ void Act_InitSystem(void){
 	UpdateLine("风机启动DELTA",3);
 	delay_ms(2000);
 
-	UpdateLine("时间:",3);
 	swtich_monitoring = true;
+	State_Update();
+	DrawScreen();
 		
 }
 

@@ -10,6 +10,7 @@
 #include "modules/emv.h"
 #include "modules/timer0.h"
 #include "modules/io.h"
+#include "modules/actions.h"
 
 uint16_t emv_switches = 0xffff;
 uint16_t emv_control_word = 0xffff;
@@ -78,6 +79,7 @@ uint8_t start_sequence(void){
 	if(emv_working == true) 
 	return 1;
 	emv_working = true;
+	Blowing_State = true;
 	Clean(true);
 	Timer0_RegisterCallbackFunction(blow_seq,10);
 	return 0;
@@ -125,6 +127,7 @@ void blow_seq(void){
 		if(!emv_working){
 				Timer0_RemoveCallbackFunction(blow_seq);
 				Clean(false);
+				Blowing_State = false;
 		}
 		
 	}

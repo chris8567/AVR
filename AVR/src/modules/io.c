@@ -50,11 +50,11 @@ void Alarm(bool state){
 void Clean(bool state){
 	if(state==IO_ON){
 		PORTF &=~_BV(3);
-		PORTD |= _BV(7);
+		PORTD |= _BV(4);
 	}
 	else{
 		PORTF |= _BV(3);
-		PORTD &= ~_BV(7);
+		PORTD &= ~_BV(4);
 	}
 	
 }
@@ -84,10 +84,30 @@ void DustValve(uint8_t sw){
 }
 
 bool START_Read(void){
+	static bool old_state = false;
+	bool new_state = false;
+	
 	if(PINC & _BV(2))
-		return false;
+		new_state = false;
 	else
-		return true;
+		new_state = true;
+	if(new_state != old_state){
+		delay_ms(200);
+		if(PINC & _BV(2))
+			new_state = false;
+		else
+			new_state = true;
+		
+		if(new_state!=old_state)
+		old_state = new_state;
+		return new_state;
+	}
+	else
+	return old_state;
+		
+		
+		
+		
 }
 
 bool RUNNING_Read(void){

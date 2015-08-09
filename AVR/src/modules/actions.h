@@ -26,6 +26,7 @@ extern uint8_t PD_Mode;
 extern uint8_t PD_Unit;
 extern bool switch_start;
 extern bool swtich_monitoring; 
+extern bool Blowing_State;
 
 void Act_Update_Main(void);
 void Act_pressure_setting1_display(void);
