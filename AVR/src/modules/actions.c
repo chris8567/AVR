@@ -235,21 +235,19 @@ void Act_SwitchUnit(void){
 
 void Act_InitSystem(void){
 	uint8_t i;
-	lcd12864_set_pos(0,3);
-	lcd12864_write_str("            \n");
-	lcd12864_set_pos(0,3);
-	lcd12864_write_str("系统启动... ");
+
+	UpdateLine("系统启动... ",3);
 	delay_ms(1000);
-	lcd12864_set_pos(0,3);
-	lcd12864_write_str("卸灰阀启动...");
+
+	UpdateLine("卸灰阀启动...",3);
 	DustValve(IO_ON);
 	for(i=Delay_DustvavleToFan;i>0;i--){
 	lcd12864_set_pos(7,3);
 	lcd12864_write_int(i);
 	delay_ms(1000);
 	}
-	lcd12864_set_pos(0,3);
-	lcd12864_write_str("风机启动STAR ");
+
+	UpdateLine("风机启动STAR ",3);
 	Airfan(STAR);
 	for(i=Delay_FanStarToDelta;i>0;i--){
 	lcd12864_set_pos(7,3);
@@ -257,19 +255,23 @@ void Act_InitSystem(void){
 	delay_ms(1000);
 	}
 	Airfan(DELTA);
-	swtich_monitoring = true;
-	lcd12864_set_pos(0,3);
-	lcd12864_write_str("风机启动DELTA");
+
+	UpdateLine("风机启动DELTA",3);
 	delay_ms(2000);
-	lcd12864_set_pos(0,3);
-	lcd12864_write_str("时间:");
+
+	UpdateLine("时间:",3);
+	swtich_monitoring = true;
 		
 }
 
 void Act_TerminatSystem(void){
 	uint8_t i;
+	if(Blowing_State){
+	stop_sequence();
+	Blowing_State = 0;
+	}
 	lcd12864_set_pos(0,3);
-	lcd12864_write_str("风机停机... ");
+	UpdateLine("风机停机...",3);
 	swtich_monitoring = false;
 	Airfan(STOP);
 	delay_ms(1000);
@@ -278,14 +280,20 @@ void Act_TerminatSystem(void){
 	lcd12864_write_int(i);
 	delay_ms(1000);
 	}
-		
-	lcd12864_set_pos(0,3);
-	lcd12864_write_str("卸灰阀停止！");
+
+	UpdateLine("卸灰阀停止！",3);
 	DustValve(IO_OFF);
 	delay_ms(3000);
-	lcd12864_set_pos(0,3);
-	lcd12864_write_str("系统停机.    ");	
+	UpdateLine("系统停机",3);	
 	switch_start = false;
 	
+	
+}
+
+void UpdateLine(char *str, uint8_t line){
+	lcd12864_set_pos(0,line);
+	lcd12864_write_str(Display_Strings[0]);
+	lcd12864_set_pos(0,line);
+	lcd12864_write_str(str);
 	
 }

@@ -50,7 +50,7 @@ char *Display_Strings[DISPLAY_STR_LENGTH] = {\
 	"> 单位: Pa",\
 	"> 单位: mmWG",\
 	"> 建设中...",\
-	"系统停机！"\
+	"系统停机"\
 };
 
 
@@ -461,14 +461,23 @@ void Menu_Poll(void){
 	}
 	
 	if(START_Read()){
+
 		if(!switch_start){
+			delay_ms(100);
+			if(START_Read()) return;
 			switch_start = true;
 			Act_InitSystem();
 			}
 	}
 	else{
-		if(swtich_monitoring)
+
+		if(swtich_monitoring){
+			delay_ms(100);
+			if(!START_Read()) return;
 			Act_TerminatSystem();
+			
+		}
+			
 		else{
 		Airfan(STOP);
 		DustValve(IO_OFF);

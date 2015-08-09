@@ -49,7 +49,7 @@ void Act_TerminatSystem(void);
 
 
 float Fun_UnitChange(uint16_t ADValue);
-
+void UpdateLine(char *str, uint8_t line);
 
 
 

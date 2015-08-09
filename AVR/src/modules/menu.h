@@ -13,7 +13,7 @@
 #define BLOWING_SYM 0x0F
 #define ALARM_SYM 0x21
 
-#define DISPLAY_STR_LENGTH	34
+#define DISPLAY_STR_LENGTH	36
 #define STATE_LIST_LENGTH	29
 typedef void (*ACTION_CALLBACK_FUNC) (void);
 
